@@ -7,7 +7,8 @@ Sprite::Sprite(const char* path, SDL_Renderer* rdr, int posX, int posY, int size
 		SDL_QueryTexture(tx, NULL, NULL, &sizeW, &sizeH);
 	rect = { posX, posY, sizeW, sizeH };
 	SDL_FreeSurface(sf);
-	std::cout << "Creating tx with size: " << sizeW << " x " << sizeH << std::endl;
+	std::cout << "Creating tx with size: " << rect.w << " x " << rect.h << std::endl;
+	std::cout << "Creating tx with pos: " << rect.x << " x " << rect.y << std::endl;
 }
 
 void Sprite::rdrCpy(SDL_Renderer* rdr) {

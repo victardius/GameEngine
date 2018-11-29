@@ -1,13 +1,2 @@
 ﻿  Main.cpp
-c:\users\horan\documents\github\gameengine\character.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\horan\documents\github\gameengine\character.h(11): error C2143: syntax error: missing ',' before '*'
-  GameController.cpp
-c:\users\horan\documents\github\gameengine\character.h(11): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\horan\documents\github\gameengine\character.h(11): error C2143: syntax error: missing ',' before '*'
-c:\users\horan\documents\github\gameengine\gamecontroller.cpp(44): error C2664: 'void Character::move(SDL_Rect *,const int)': cannot convert argument 2 from 'GameController *' to 'const int'
-  c:\users\horan\documents\github\gameengine\gamecontroller.cpp(44): note: There is no context in which this conversion is possible
-  Character.cpp
-c:\users\horan\documents\github\gameengine\gamecontroller.h(24): error C2143: syntax error: missing ';' before '*'
-c:\users\horan\documents\github\gameengine\gamecontroller.h(24): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-c:\users\horan\documents\github\gameengine\gamecontroller.h(24): error C2238: unexpected token(s) preceding ';'
-  Generating Code...
+  GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe

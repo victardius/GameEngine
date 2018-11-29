@@ -3,12 +3,11 @@
 
 #include "Sprite.h"
 #include "Background.h"
-#include "GameController.h"
 
 class Character : public Sprite {
 public:
 	Character(int pHealth, double pSpeed, const char* path, SDL_Renderer* rdr, int x, int y, int sizeX, int sizeY) : Sprite(path, rdr, x, y, sizeX, sizeY), health(pHealth), speed(pSpeed) {}
-	void move(SDL_Rect* b, const GameController* gc);
+	int move(SDL_Rect* b);
 	void shoot(int x, int y); //add weapon later
 	void takeDamage(int amount);
 	int getHealth();

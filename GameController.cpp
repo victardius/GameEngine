@@ -1,7 +1,7 @@
 #include "GameController.h"
 #define FPS 60
 
-void GameController::init() {
+GameController::GameController() {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	int flags = IMG_INIT_PNG;
@@ -11,7 +11,7 @@ void GameController::init() {
 		std::cout << "IMG_Init: %s\n" << IMG_GetError() << std::endl;
 	}
 
-	win = SDL_CreateWindow("Game", 100, 100, 960, 540, 0);
+	win = SDL_CreateWindow("Game", 100, 100, 640, 640, 0);
 	ren = SDL_CreateRenderer(win, -1, 0);
 
 }
@@ -27,7 +27,7 @@ void GameController::eventHandler() {
 				case SDL_QUIT: running = false; break;
 				case SDL_MOUSEBUTTONDOWN:{
 					SDL_Point p = { event.button.x, event.button.y };
-					mouseClick(event.button, p);
+					mouseClick(&event.button, &p);
 					} break;
 			}
 		}
@@ -39,10 +39,21 @@ void GameController::eventHandler() {
 	}
 }
 
-void GameController::mouseClick(SDL_MouseButtonEvent mb, SDL_Point p) {
-	if (mb.button == SDL_BUTTON_RIGHT && SDL_PointInRect(&p, (sprites.at("background")->getRect()))) {
-		player->move(bg.at("background")->getRect(), this);
+void GameController::mouseClick(SDL_MouseButtonEvent* mb, SDL_Point* p) {
+	if (mb->button == SDL_BUTTON_RIGHT) {
+		while (player->move(checkPoint(p)) != 0) {
+			renderReset();
+		}
 	}
+}
+
+SDL_Rect* GameController::checkPoint(SDL_Point* p) {
+	for (auto& b : bg){
+		if (SDL_PointInRect(p, b.second->getRect())) {
+			return b.second->getRect();
+		}
+	}
+	return NULL;
 }
 
 void GameController::renderReset() {
@@ -65,7 +76,24 @@ void GameController::addPlayer(int pHealth, double pSpeed, const char* path, std
 	player = tx;
 }
 
-void GameController::end() {
+void GameController::createBG(int amount, const char* path) {
+	std::string name = "background0";
+	char c = '0';
+	int posX = 0, posY = 0, total = 0;
+	for (int i = 0; i < amount; i++) {
+		name.replace(10, 1, &c);
+		c++;
+		this->addBackground(path, name, posX, posY);
+		posX += 64;
+		if (posX == 640) {
+			posX = 0;
+			posY += 64;
+		}
+		std::cout << posX << " : " << posY << std::endl;
+	}
+}
+
+GameController::~GameController() {
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyWindow(win);
 	SDL_Quit();

@@ -11,19 +11,21 @@
 
 class GameController {
 public:
-	void init();
+	GameController();
 	void eventHandler();
 	void addBackground(const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
 	void addPlayer(int pHealth, double pSpeed, const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
-	void end();
-	void mouseClick(SDL_MouseButtonEvent mb, SDL_Point p);
+	~GameController();
+	void mouseClick(SDL_MouseButtonEvent* mb, SDL_Point* p);
 	void renderReset();
+	void createBG(int amount, const char* path);
 private:
 	std::unordered_map<std::string, Sprite*> sprites;
 	std::unordered_map<std::string, Background*> bg;
 	Character* player;
 	SDL_Window* win;
 	SDL_Renderer* ren;
+	SDL_Rect* checkPoint(SDL_Point* p);
 };
 
 #endif
