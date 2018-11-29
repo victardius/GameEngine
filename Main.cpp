@@ -4,6 +4,7 @@
 int main(int argc, char * argv[])
 {
 	GameController*  gc = new GameController();
+	//std:unique_ptr<GameController> gc(new GameController());
 
 	gc->init();
 	gc->addTexture("PNG/bilden.png", "background");

@@ -11,7 +11,7 @@ void GameController::init() {
 	int flags = IMG_INIT_PNG;
 	int initted = IMG_Init(flags);
 	if ((initted&flags) != flags) {
-		std::cout << "IMG_Init: Failed to init required jpg and png support!\n" << std::endl;
+		std::cout << "IMG_Init: Failed to init required png support!\n" << std::endl;
 		std::cout << "IMG_Init: %s\n" << IMG_GetError() << std::endl;
 	}
 
@@ -28,10 +28,10 @@ void GameController::eventHandler() {
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
-			case SDL_QUIT: running = false; break;
+				case SDL_QUIT: running = false; break;
+				
 			}
 		}
-
 		renderReset();
 
 		int delay = nextTick - SDL_GetTicks();

@@ -9,8 +9,8 @@ using namespace std;
 Texture::Texture(const char* path, SDL_Renderer* rdr, int x, int y, int sizeX, int sizeY) {
 	SDL_Surface* sf = IMG_Load(path);
 	tx = SDL_CreateTextureFromSurface(rdr, sf);
-	//tx = IMG_LoadTexture(rdr, path);
-	SDL_QueryTexture(tx, NULL, NULL, &sizeX, &sizeY);
+	if (!(sizeX > 0 && sizeY > 0))
+		SDL_QueryTexture(tx, NULL, NULL, &sizeX, &sizeY);
 	rect = { x, y, sizeX, sizeY };
 	SDL_FreeSurface(sf);
 	cout << "Creating tx" << endl;
