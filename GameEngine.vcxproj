@@ -123,13 +123,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameController.cpp" />
-    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="GameController.h" />
-    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Sprite.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,2 +1,38 @@
-﻿  Main.cpp
-  GameEngine.vcxproj -> D:\Dev\GameEngine\Debug\GameEngine.exe
+﻿  Background.cpp
+c:\users\horan\documents\github\gameengine\background.h(6): error C2516: 'Sprite::{ctor}': is not a legal base class
+c:\users\horan\documents\github\gameengine\background.h(8): error C2436: '{ctor}': member function or nested class in constructor initializer list
+  Main.cpp
+c:\users\horan\documents\github\gameengine\background.h(6): error C2516: 'Sprite::{ctor}': is not a legal base class
+c:\users\horan\documents\github\gameengine\background.h(8): error C2436: '{ctor}': member function or nested class in constructor initializer list
+c:\users\horan\documents\github\gameengine\character.h(7): error C2516: 'Sprite::{ctor}': is not a legal base class
+c:\users\horan\documents\github\gameengine\character.h(9): error C2436: '{ctor}': member function or nested class in constructor initializer list
+  GameController.cpp
+c:\users\horan\documents\github\gameengine\background.h(6): error C2516: 'Sprite::{ctor}': is not a legal base class
+c:\users\horan\documents\github\gameengine\background.h(8): error C2436: '{ctor}': member function or nested class in constructor initializer list
+c:\users\horan\documents\github\gameengine\character.h(7): error C2516: 'Sprite::{ctor}': is not a legal base class
+c:\users\horan\documents\github\gameengine\character.h(9): error C2436: '{ctor}': member function or nested class in constructor initializer list
+c:\users\horan\documents\github\gameengine\gamecontroller.cpp(43): error C2276: '&': illegal operation on bound member function expression
+c:\users\horan\documents\github\gameengine\gamecontroller.cpp(43): error C2660: 'SDL_PointInRect': function does not take 1 arguments
+  c:\sdl2-2.0.9\include\sdl_rect.h(73): note: see declaration of 'SDL_PointInRect'
+  Character.cpp
+c:\users\horan\documents\github\gameengine\background.h(6): error C2516: 'Sprite::{ctor}': is not a legal base class
+c:\users\horan\documents\github\gameengine\background.h(8): error C2436: '{ctor}': member function or nested class in constructor initializer list
+c:\users\horan\documents\github\gameengine\character.h(7): error C2516: 'Sprite::{ctor}': is not a legal base class
+c:\users\horan\documents\github\gameengine\character.h(9): error C2436: '{ctor}': member function or nested class in constructor initializer list
+c:\users\horan\documents\github\gameengine\character.cpp(7): error C2352: 'Sprite::getX': illegal call of non-static member function
+  c:\users\horan\documents\github\gameengine\sprite.h(12): note: see declaration of 'Sprite::getX'
+c:\users\horan\documents\github\gameengine\character.cpp(8): error C2352: 'Sprite::getY': illegal call of non-static member function
+  c:\users\horan\documents\github\gameengine\sprite.h(13): note: see declaration of 'Sprite::getY'
+c:\users\horan\documents\github\gameengine\character.cpp(11): error C2039: 'Sprite': is not a member of 'Background'
+  c:\users\horan\documents\github\gameengine\background.h(6): note: see declaration of 'Background'
+c:\users\horan\documents\github\gameengine\character.cpp(11): error C2662: 'int Sprite::getX(void)': cannot convert 'this' pointer from 'Background' to 'Sprite &'
+  c:\users\horan\documents\github\gameengine\character.cpp(11): note: Reason: cannot convert from 'Background' to 'Sprite'
+  c:\users\horan\documents\github\gameengine\character.cpp(11): note: Conversion requires a second user-defined-conversion operator or constructor
+c:\users\horan\documents\github\gameengine\character.cpp(12): error C2039: 'Sprite': is not a member of 'Background'
+  c:\users\horan\documents\github\gameengine\background.h(6): note: see declaration of 'Background'
+c:\users\horan\documents\github\gameengine\character.cpp(12): error C2662: 'int Sprite::getY(void)': cannot convert 'this' pointer from 'Background' to 'Sprite &'
+  c:\users\horan\documents\github\gameengine\character.cpp(12): note: Reason: cannot convert from 'Background' to 'Sprite'
+  c:\users\horan\documents\github\gameengine\character.cpp(12): note: Conversion requires a second user-defined-conversion operator or constructor
+c:\users\horan\documents\github\gameengine\character.cpp(26): error C2352: 'Sprite::moveTo': illegal call of non-static member function
+  c:\users\horan\documents\github\gameengine\sprite.h(17): note: see declaration of 'Sprite::moveTo'
+  Generating Code...

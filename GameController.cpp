@@ -1,8 +1,4 @@
 #include "GameController.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <iostream>
-#include <string>
 #define FPS 60
 
 void GameController::init() {
@@ -29,7 +25,10 @@ void GameController::eventHandler() {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 				case SDL_QUIT: running = false; break;
-				
+				case SDL_MOUSEBUTTONDOWN:{
+					SDL_Point p = { event.button.x, event.button.y };
+					mouseClick(event.button, p);
+					} break;
 			}
 		}
 		renderReset();
@@ -40,17 +39,30 @@ void GameController::eventHandler() {
 	}
 }
 
+void GameController::mouseClick(SDL_MouseButtonEvent mb, SDL_Point p) {
+	if (mb.button == SDL_BUTTON_RIGHT && SDL_PointInRect(&p, &sprites.at("background")->getRect)) {
+		player->move(bg.at("background"));
+	}
+}
+
 void GameController::renderReset() {
 	SDL_RenderClear(ren);
-	for (auto& t : textures) {
+	for (auto& t : sprites) {
 		t.second->rdrCpy(ren);
 	}
 	SDL_RenderPresent(ren);
 }
 
-void GameController::addTexture(const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
-	Texture* tx = new Texture(path, ren, x, y, sizeX, sizeY);
-	textures.emplace(name, tx);
+void GameController::addBackground(const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
+	Background* tx = new Background(path, ren, x, y, sizeX, sizeY);
+	sprites.emplace(name, tx);
+	bg.emplace(name, tx);
+}
+
+void GameController::addPlayer(int pHealth, double pSpeed, const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
+	Character* tx = new Character(pHealth, pSpeed, path, ren, x, y, sizeX, sizeY);
+	sprites.emplace(name, tx);
+	player = tx;
 }
 
 void GameController::end() {
