@@ -1,29 +1,30 @@
 #include "Character.h"
 
+void Character::move(SDL_Rect* b, const GameController* gc) {
 
-void Character::move(Background* b) {
-	int distX = 0;
-	int distY = 0;
-	int x = Sprite::getX();
-	int y = Sprite::getY();
+	int distX;
+	int distY;
 	
 	do {
-		int distX = b->Sprite::getX() - x;
-		int distY = b->Sprite::getY() - y;
+		distX = (b->x + (b->w / 2)) - getRect()->x;
+		distY = (b->y + (b->h / 2)) - getRect()->y;
 
 		if (distX > 0) {
-			x++;
+			getRect()->x++;
 		}else if(distX < 0){
-			x--;
+			getRect()->x--;
 		}
 
 		if (distY > 0) {
-			y++;
+			getRect()->y++;
 		}
 		else if (distY < 0) {
-			y--;
+			getRect()->y--;
 		}
-		Sprite::moveTo(distX, distY);
+		std::cout << "Me: " << getRect()->x << " : " << getRect()->y << std::endl;
+		std::cout << "Distance: " << distX << " : " << distY << std::endl;
+		std::cout << "Target: " << b->x + (b->w / 2) << " : " << b->y + (b->h / 2) << std::endl;
+		//gc->renderReset();
 	}while (distX + distY != 0);
 	
 }

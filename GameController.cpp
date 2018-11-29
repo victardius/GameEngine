@@ -40,8 +40,8 @@ void GameController::eventHandler() {
 }
 
 void GameController::mouseClick(SDL_MouseButtonEvent mb, SDL_Point p) {
-	if (mb.button == SDL_BUTTON_RIGHT && SDL_PointInRect(&p, &sprites.at("background")->getRect)) {
-		player->move(bg.at("background"));
+	if (mb.button == SDL_BUTTON_RIGHT && SDL_PointInRect(&p, (sprites.at("background")->getRect()))) {
+		player->move(bg.at("background")->getRect(), this);
 	}
 }
 

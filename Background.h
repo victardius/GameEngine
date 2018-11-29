@@ -3,9 +3,9 @@
 
 #include "Sprite.h"
 
-class Background : public Sprite::Sprite {
+class Background : public Sprite {
 public:
-	Background(const char* path, SDL_Renderer* rdr, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0) : Sprite::Sprite(path, rdr, x, y, sizeX, sizeY) {}
+	Background(const char* path, SDL_Renderer* rdr, int x, int y, int sizeX, int sizeY) : Sprite(path, rdr, x, y, sizeX, sizeY) {}
 private:
 };
 

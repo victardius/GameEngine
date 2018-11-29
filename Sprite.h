@@ -8,11 +8,9 @@
 
 class Sprite {
 public:
-	Sprite(const char* path, SDL_Renderer* rdr, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
-	int getX();
-	int getY();
+	Sprite(const char* path, SDL_Renderer* rdr, int posX = 0, int posY = 0, int sizeW = 0, int sizeH = 0);
 	SDL_Texture* getTx() { return tx; };
-	SDL_Rect getRect() { return rect; };
+	SDL_Rect* getRect() { return &rect; };
 	void rdrCpy(SDL_Renderer* rdr);
 	void moveTo(int x, int y);
 	void setTexture(char* path, SDL_Renderer* rdr) { Sprite::Sprite(path, rdr); };
@@ -20,7 +18,6 @@ public:
 	void resetSize();
 	~Sprite();
 private:
-	int x, y, sizeX, sizeY;
 	SDL_Texture* tx;
 	SDL_Rect rect;
 };
