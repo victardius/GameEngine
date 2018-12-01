@@ -3,10 +3,16 @@
 
 #include "Sprite.h"
 
-class Background : public Sprite {
-public:
-	Background(const char* path, SDL_Renderer* rdr, int x, int y, int sizeX, int sizeY) : Sprite(path, rdr, x, y, sizeX, sizeY) {}
-private:
-};
+namespace gameEngine {
+
+	class Background : public Sprite {
+	public:
+		static Background* getInstance(const char* path, int x, int y, int sizeX, int sizeY);
+	protected:
+		Background(const char* path, int x, int y, int sizeX, int sizeY);
+	private:
+	};
+
+}
 
 #endif

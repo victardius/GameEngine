@@ -1,2 +1,7 @@
-﻿  Main.cpp
+﻿  Character.cpp
+c:\users\horan\documents\github\gameengine\character.cpp(43): warning C4244: 'argument': conversion from 'double' to 'Uint32', possible loss of data
+  GameController.cpp
+  Main.cpp
+  Sprite.cpp
+  Generating Code...
   GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe

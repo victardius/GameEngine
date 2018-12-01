@@ -4,21 +4,30 @@
 #include "Sprite.h"
 #include "Background.h"
 
-class Character : public Sprite {
-public:
-	Character(int pHealth, double pSpeed, const char* path, SDL_Renderer* rdr, int x, int y, int sizeX, int sizeY) : Sprite(path, rdr, x, y, sizeX, sizeY), health(pHealth), speed(pSpeed) {}
-	int move(SDL_Rect* b);
-	void shoot(int x, int y); //add weapon later
-	void takeDamage(int amount);
-	int getHealth();
-	double getSpeed();
-	void setHealth(int amount);
-	void setSpeed(double amount);
-	void increaseHealth(int amount);
-	void increaseSpeed(double amount);
-private:
-	int health;
-	double speed;
-};
+namespace gameEngine {
+
+	class Character : public Sprite {
+	public:
+		static Character* getInstance(int pHealth, double pSpeed, const char* path, int x, int y, int sizeX, int sizeY);
+		void moving(SDL_Rect* b);
+		void shoot(SDL_Rect* b); //add weapon later
+		void takeDamage(int amount);
+		int getHealth();
+		double getSpeed();
+		void setHealth(int amount);
+		void setSpeed(double amount);
+		void increaseHealth(int amount);
+		void increaseSpeed(double amount);
+		void rdrCpy();
+	protected:
+		Character(int pHealth, double pSpeed, const char* path, int x, int y, int sizeX, int sizeY);
+	private:
+		int health;
+		double speed;
+		int move(SDL_Rect* b);
+		int targetX = 0, targetY = 0;
+	};
+
+}
 
 #endif
