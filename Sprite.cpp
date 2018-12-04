@@ -3,13 +3,22 @@
 
 namespace gameEngine {
 
-	Sprite::Sprite(const char* path, int posX, int posY, int sizeW, int sizeH) {
-		SDL_Surface* sf = IMG_Load(path);
+	Sprite::Sprite(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
+		name = spriteName;
+		setTexture(path, posX, posY, sizeW, sizeH);
+	}
+
+	void Sprite::setTexture(const char* path, int posX, int posY, int sizeW, int sizeH) {
+		sf = IMG_Load(path);
 		tx = SDL_CreateTextureFromSurface(gc.getRen(), sf);
 		if (!(sizeW > 0 && sizeH > 0))
 			SDL_QueryTexture(tx, NULL, NULL, &sizeW, &sizeH);
 		rect = { posX, posY, sizeW, sizeH };
-		SDL_FreeSurface(sf);
+		
+	}
+
+	void Sprite::tick() {
+		rdrCpy();
 	}
 
 	void Sprite::rdrCpy() {
@@ -26,6 +35,22 @@ namespace gameEngine {
 		rect.h = sY;
 	}
 
+	std::string Sprite::getName() {
+		return name;
+	}
+
+	SDL_Surface* Sprite::getSurface() {
+		return sf;
+	}
+
+	SDL_Texture* Sprite::getTx() {
+		return tx;
+	}
+
+	SDL_Rect* Sprite::getRect() {
+		return &rect;
+	}
+
 	void Sprite::resetSize() {
 		int sizeX, sizeY;
 		SDL_QueryTexture(tx, NULL, NULL, &sizeX, &sizeY);
@@ -34,6 +59,7 @@ namespace gameEngine {
 	}
 
 	Sprite::~Sprite() {
+		SDL_FreeSurface(sf);
 		SDL_DestroyTexture(tx);
 	}
 

@@ -1,10 +1,18 @@
-#include <math.h>
+#include <cmath>
 #include "Character.h"
 #include "GameController.h"
 
 #define PI 3.14159265
 
 namespace gameEngine {
+
+	Character::Character(int pHealth, double pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) : CollisionSprite(path, spriteName, x, y, sizeX, sizeY), health(pHealth), speed(pSpeed) {
+
+	}
+
+	Character* Character::getInstance(int pHealth, double pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) {
+		return new Character(pHealth, pSpeed, path, spriteName, x, y, sizeX, sizeY);
+	}
 
 	int Character::move(SDL_Rect* b) {
 
@@ -51,12 +59,27 @@ namespace gameEngine {
 		std::cout << "pew pew" << std::endl;
 	}
 
-	Character* Character::getInstance(int pHealth, double pSpeed, const char* path, int x, int y, int sizeX, int sizeY) {
-		return new Character(pHealth, pSpeed, path, x, y, sizeX, sizeY);
+	double Character::getSpeed() {
+		return speed;
 	}
 
-	Character::Character(int pHealth, double pSpeed, const char* path, int x, int y, int sizeX, int sizeY) : Sprite(path, x, y, sizeX, sizeY), health(pHealth), speed(pSpeed) {
+	void Character::setSpeed(double amount) {
+		speed = amount;
+	}
 
+	void Character::takeDamage(int amount) {
+		health -= amount;
+		if (health <= 0) {
+			std::cout << "dead" << std::endl;
+		}
+	}
+
+	int Character::getHealth() {
+		return health;
+	}
+
+	void Character::setHealth(int amount) {
+		health = amount;
 	}
 
 	void Character::rdrCpy() {
