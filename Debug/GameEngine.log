@@ -1,10 +1,2 @@
-﻿  Background.cpp
-  Character.cpp
-c:\users\horan\documents\github\gameengine\character.cpp(51): warning C4244: 'argument': conversion from 'double' to 'Uint32', possible loss of data
-  CollisionSprite.cpp
-  EventController.cpp
-  GameController.cpp
-  Main.cpp
-  Sprite.cpp
-  Generating Code...
-  GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe
+﻿  CollisionSprite.cpp
+  GameEngine.vcxproj -> D:\Dev\GameEngine\Debug\GameEngine.exe

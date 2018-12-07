@@ -35,6 +35,8 @@ namespace gameEngine {
 	}
 
 	bool CollisionSprite::isOpaque(int x, int y) {
+		x -= getRect()->x;
+		y -= getRect()->y;
 		SDL_LockSurface(getSurface());
 		int bytes = getSurface()->format->BytesPerPixel;
 		Uint8* pixel = ((Uint8*)getSurface()->pixels + y * getSurface()->pitch + x * bytes);

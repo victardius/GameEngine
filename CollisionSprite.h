@@ -2,6 +2,7 @@
 #define COLLISIONSPRITE_H
 
 #include "Sprite.h"
+#include <vector>
 
 namespace gameEngine {
 
