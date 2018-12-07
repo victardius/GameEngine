@@ -6,56 +6,56 @@
 
 namespace gameEngine {
 
-	Character::Character(int pHealth, double pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) : CollisionSprite(path, spriteName, x, y, sizeX, sizeY), health(pHealth), speed(pSpeed) {
+	Character::Character(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) : CollisionSprite(path, spriteName, x, y, sizeX, sizeY), health(pHealth), speed(pSpeed) {
 
 	}
 
-	Character* Character::getInstance(int pHealth, double pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) {
+	Character* Character::getInstance(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) {
 		return new Character(pHealth, pSpeed, path, spriteName, x, y, sizeX, sizeY);
 	}
 
-	int Character::move(SDL_Rect* b) {
-
-		int distX;
-		int distY;
-
-		distX = (b->x + (b->w / 2) - (getRect()->w / 2)) - getRect()->x;
-		distY = (b->y + (b->h / 2) - (getRect()->h / 2)) - getRect()->y;
-
-		if (distX > 0) {
-			getRect()->x++;
-		}
-		else if (distX < 0) {
-			getRect()->x--;
-		}
-
-		if (distY > 0) {
-			getRect()->y++;
-		}
-		else if (distY < 0) {
-			getRect()->y--;
-		}
-
-		
-
-		return distX + distY;
-
+	void Character::tick() {
+		move();
+		rdrCpy();
 	}
 
-	void Character::moving(SDL_Rect* b) {
-		while (move(b) != 0) {
-			targetX = b->x;
-			targetY = b->y;
-			gc.renderReset();
-			double delay = 100 / speed;
-			SDL_Delay(delay);
+	void Character::move() {
+		if (moveTargetX >= 0 && moveTargetY >= 0) {
+
+			int distX = moveTargetX - getRect()->x;
+			int distY = moveTargetY - getRect()->y;
+
+			getRect()->x += directionX * speed;
+			getRect()->y += directionY * speed;
+
+			if (std::sqrt(std::pow(getRect()->x - startX, 2) + std::pow(getRect()->y - startY, 2)) >= distance)
+			{
+				stop();
+			}
 		}
+	}
+
+	void Character::stop() {		
+		moveTargetX = -1;
+		moveTargetY = -1;
+	}
+
+	void Character::moveTarget(SDL_Rect* b) {
+		moveTargetX = b->x + (b->w / 2) - (getRect()->w / 2);
+		moveTargetY = b->y + (b->h / 2) - (getRect()->h / 2);
+		startX = getRect()->x;
+		startY = getRect()->y;
+		distance = std::sqrt(std::pow(moveTargetX - startX, 2) + std::pow(moveTargetY - startY, 2));
+		directionX = (moveTargetX - startX) / distance;
+		directionY = (moveTargetY - startY) / distance;
+		focusX = moveTargetX + directionX * 100;
+		focusY = moveTargetY + directionY * 100;
 	}
 
 	void Character::shoot(SDL_Rect* b) {
-		targetX = b->x;
-		targetY = b->y;
-		gc.renderReset();
+		stop();
+		focusX = b->x;
+		focusY = b->y;
 		std::cout << "pew pew" << std::endl;
 	}
 
@@ -63,7 +63,11 @@ namespace gameEngine {
 		return speed;
 	}
 
-	void Character::setSpeed(double amount) {
+	void Character::collisionEvent() {
+
+	}
+
+	void Character::setSpeed(int amount) {
 		speed = amount;
 	}
 
@@ -85,7 +89,7 @@ namespace gameEngine {
 	void Character::rdrCpy() {
 		int x = getRect()->x;
 		int y = getRect()->y;
-		double angle = atan2(targetY - y, targetX - x) * 180 / PI;
+		double angle = atan2(focusY - y, focusX - x) * 180 / PI;
 		SDL_RenderCopyEx(gc.getRen(), getTx(), NULL, getRect(), angle, NULL, SDL_FLIP_NONE);
 	}
 

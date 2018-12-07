@@ -14,11 +14,9 @@ namespace gameEngine {
 	class GameController {
 	public:
 		GameController();
-		//void eventHandler();
 		void addBackground(const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
-		Character* addCharacter(int pHealth, double pSpeed, const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
+		Character* addCharacter(int pHealth, int pSpeed, const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
 		~GameController();
-		//void mouseClick(SDL_MouseButtonEvent* mb);
 		void renderReset();
 		void createBG(int amount, const char* path);
 		SDL_Renderer* getRen();
@@ -26,13 +24,13 @@ namespace gameEngine {
 		std::unordered_map<std::string, Background*>* getBackgrounds();
 		void removeCollidingObject(std::string n);
 		void removeBackground(std::string n);
+		int getRenderStart();
 	private:
 		std::unordered_map<std::string, CollisionSprite*> collObjs;
 		std::unordered_map<std::string, Background*> bgs;
-		//Character* player;
 		SDL_Window* win;
 		SDL_Renderer* ren;
-		//SDL_Rect* checkPoint(SDL_Point* p);
+		int renderStart;
 	};
 
 	extern GameController gc;

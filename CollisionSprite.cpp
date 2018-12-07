@@ -23,8 +23,7 @@ namespace gameEngine {
 						if (isOpaque(posX, posY)) {
 							//std::cout << "First done" << std::endl;
 							if (cs->isOpaque(posX, posY)) {
-								std::cout << "collision!" << std::endl;
-								collided = true;
+								collisionEvent();
 							}
 						}
 					}
@@ -39,28 +38,31 @@ namespace gameEngine {
 		y -= getRect()->y;
 		SDL_LockSurface(getSurface());
 		int bytes = getSurface()->format->BytesPerPixel;
-		Uint8* pixel = ((Uint8*)getSurface()->pixels + y * getSurface()->pitch + x * bytes);
-		Uint32 pixelColor;
+		char* p = (char*)getSurface()->pixels + y * getSurface()->pitch + x * bytes;
+		Uint32 pixel;
 		//std::cout << "Bytes: " << bytes << std::endl;
 		switch (bytes)
 		{
-			case(1):
-				pixelColor = *((Uint8*)getSurface()->pixels + y * getSurface()->pitch + x * bytes);
+			case 1:
+				pixel = *p; 
 				break;
-			case(2):
-				pixelColor = *(Uint16*)((Uint8*)getSurface()->pixels + y * getSurface()->pitch + x * bytes);
+			case 2:
+				pixel = *(Uint16*)p;
 				break;
-			case(4):
-				pixelColor = (Uint32)((Uint8*)getSurface()->pixels + y * getSurface()->pitch + x * bytes);
+			case 3:
+				if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+					pixel = p[0] << 16 | p[1] << 8 | p[2];
+				else
+					pixel = p[0] | p[1] << 8 | p[2] << 16;
+				break;
+			case 4:
+				pixel = *(Uint32*)p;
 				break;
 		}
-		Uint8 red, green, blue, alpha;
-		SDL_GetRGBA(pixelColor, getSurface()->format, &red, &green, &blue, &alpha);
-		int a = alpha;
-		if (a > 100)
-			std::cout << a << std::endl;
 		SDL_UnlockSurface(getSurface());
-		return alpha > 100;
+		Uint8 red, green, blue, alpha;
+		SDL_GetRGBA(pixel, getSurface()->format, &red, &green, &blue, &alpha);
+		return alpha > 225;
 	}
 
 	SDL_Rect* CollisionSprite::intersectRects(CollisionSprite* cs) {
@@ -79,8 +81,8 @@ namespace gameEngine {
 		return nullptr;
 	}
 
-	CollisionSprite* CollisionSprite::getInstance(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
+	/*CollisionSprite* CollisionSprite::getInstance(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
 		return new CollisionSprite(path, spriteName, posX, posY, sizeW, sizeH);
-	}
+	}*/
 
 }

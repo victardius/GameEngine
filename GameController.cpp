@@ -1,5 +1,4 @@
 #include "GameController.h"
-//#define FPS 60
 
 namespace gameEngine {
 
@@ -18,50 +17,8 @@ namespace gameEngine {
 
 	}
 
-	/*void GameController::eventHandler() {
-		const int tickInterval = 1000 / FPS;
-		bool running = true;
-		while (running) {
-			Uint32 nextTick = SDL_GetTicks() + tickInterval;
-			SDL_Event event;
-			while (SDL_PollEvent(&event)) {
-				switch (event.type) {
-				case SDL_QUIT: running = false; break;
-				case SDL_MOUSEBUTTONDOWN: {
-					mouseClick(&event.button);
-				} break;
-				}
-			}
-			renderReset();
-			int delay = nextTick - SDL_GetTicks();
-			if (delay > 0)
-				SDL_Delay(delay);
-		}
-	}
-
-	void GameController::mouseClick(SDL_MouseButtonEvent* mb) {
-		SDL_Point p = { mb->x, mb->y };
-		SDL_Rect* r = checkPoint(&p);
-		if (mb->button == SDL_BUTTON_RIGHT) {
-			if (r != nullptr)
-				player->moving(r);
-		}
-		else if (mb->button == SDL_BUTTON_LEFT) {
-			if (r != nullptr)
-				player->shoot(r);
-		}
-	}
-
-	SDL_Rect* GameController::checkPoint(SDL_Point* p) {
-		for (auto& b : bg) {
-			if (SDL_PointInRect(p, b.second->getRect())) {
-				return b.second->getRect();
-			}
-		}
-		return nullptr;
-	}*/
-
 	void GameController::renderReset() {
+		renderStart = SDL_GetTicks();
 		for (auto& co1 : collObjs) {
 			for (auto& co2 : collObjs) {
 				if (co1 != co2) {
@@ -79,12 +36,16 @@ namespace gameEngine {
 		SDL_RenderPresent(ren);
 	}
 
+	int GameController::getRenderStart() {
+		return renderStart;
+	}
+
 	void GameController::addBackground(const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
 		Background* bg = Background::getInstance(path, name, x, y, sizeX, sizeY);
 		bgs.emplace(name, bg);
 	}
 
-	Character* GameController::addCharacter(int pHealth, double pSpeed, const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
+	Character* GameController::addCharacter(int pHealth, int pSpeed, const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
 		Character* character = Character::getInstance(pHealth, pSpeed, path, name, x, y, sizeX, sizeY);
 		collObjs.emplace(name, character);
 		return character;

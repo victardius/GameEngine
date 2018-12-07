@@ -1,2 +1,6 @@
-﻿  CollisionSprite.cpp
-  GameEngine.vcxproj -> D:\Dev\GameEngine\Debug\GameEngine.exe
+﻿  Character.cpp
+c:\users\horan\documents\github\gameengine\character.cpp(28): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\horan\documents\github\gameengine\character.cpp(29): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\horan\documents\github\gameengine\character.cpp(51): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\horan\documents\github\gameengine\character.cpp(52): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe
