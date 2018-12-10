@@ -9,11 +9,6 @@ namespace gameEngine {
 	}
 
 	void CollisionSprite::checkCollision(CollisionSprite* cs) {
-		/*int rightX1 = getRect()->x + getRect()->w;
-		int bottomY1 = getRect()->y + getRect()->h;
-		int rightX2 = cs->getRect()->x + cs->getRect()->w;
-		int bottomY2 = cs->getRect()->y + cs->getRect()->h;
-		if ((cs->getRect()->x < rightX1 && cs->getRect()->y < bottomY1) && !(rightX2 < getRect()->x || bottomY2 < getRect()->y)) {*/
 			SDL_Rect* r = intersectRects(cs);
 			if (r != nullptr) {
 				for (int y = 0; y < r->h; y++) {
@@ -21,15 +16,12 @@ namespace gameEngine {
 						int posX = r->x + x;
 						int posY = r->y + y;
 						if (isOpaque(posX, posY)) {
-							//std::cout << "First done" << std::endl;
 							if (cs->isOpaque(posX, posY)) {
 								collisionEvent();
 							}
 						}
 					}
 				}
-			/*}*/
-			//std::cout << "Not correct :S" << std::endl;
 		}
 	}
 
@@ -40,7 +32,6 @@ namespace gameEngine {
 		int bytes = getSurface()->format->BytesPerPixel;
 		char* p = (char*)getSurface()->pixels + y * getSurface()->pitch + x * bytes;
 		Uint32 pixel;
-		//std::cout << "Bytes: " << bytes << std::endl;
 		switch (bytes)
 		{
 			case 1:
@@ -81,8 +72,8 @@ namespace gameEngine {
 		return nullptr;
 	}
 
-	/*CollisionSprite* CollisionSprite::getInstance(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
-		return new CollisionSprite(path, spriteName, posX, posY, sizeW, sizeH);
-	}*/
+	void CollisionSprite::createColliders() {
+
+	}
 
 }
