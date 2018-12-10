@@ -7,7 +7,7 @@ namespace gameEngine {
 	}
 
 	Text* Text::getInstance(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
-
+		return this;
 	}
 
 }
