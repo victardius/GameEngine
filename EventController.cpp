@@ -7,7 +7,7 @@ namespace gameEngine {
 
 	EventController::EventController()
 	{
-		
+		eventHandler();
 	}
 
 	void EventController::eventHandler() {
@@ -33,6 +33,36 @@ namespace gameEngine {
 				SDL_Delay(delay);
 		}
 	}
+	
+	void EventController::mouseDown(SDL_MouseButtonEvent* mb) {
+		SDL_Point p = { mb->x, mb->y };
+		SDL_Rect* r = checkPoint(&p);
+		if (mb->button == SDL_BUTTON_RIGHT) {
+			if (r != nullptr)
+				rightMB;
+		}
+		else if (mb->button == SDL_BUTTON_LEFT) {
+			if (r != nullptr)
+				leftMB;
+		}
+	}
+
+	void EventController::keyDown(SDL_Keycode* key) {
+		if (*key == SDLK_ESCAPE)
+			keyEscape;
+	}
+
+	void EventController::SetRightMouseButton(void(*function)()) {
+		rightMB = function;
+	}
+
+	void EventController::SetLeftMouseButton(void(*function)()) {
+		leftMB = function;
+	}
+
+	void EventController::SetEscapeKey(void(*function)()) {
+		keyEscape = function;
+	}
 
 	void EventController::quit() {
 		running = false;
@@ -45,14 +75,6 @@ namespace gameEngine {
 			}
 		}
 		return nullptr;
-	}
-
-	void EventController::addPlayer(int pHealth, int pSpeed, const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
-		player = gc.addCharacter(pHealth, pSpeed, path, name, x, y, sizeX, sizeY);
-	}
-
-	Character* EventController::getPlayer() {
-		return player;
 	}
 
 	EventController::~EventController()

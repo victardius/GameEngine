@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Sprite.h"
 #include "Character.h"
+#include "EventController.h"
 
 namespace gameEngine {
 
@@ -25,12 +26,30 @@ namespace gameEngine {
 		void removeCollidingObject(std::string n);
 		void removeBackground(std::string n);
 		int getRenderStart();
+		Character* getPlayer();
+		void setPlayer(Character* p);
+		void start(); 
+		void eventHandler();
+		void SetRightMouseButton(void(*function)());
+		void SetLeftMouseButton(void(*function)());
+		void SetEscapeKey(void(*function)());
+		void quit();
+		SDL_Rect* getMPos();
 	private:
+		SDL_Rect* checkPoint(SDL_Point* p);
 		std::unordered_map<std::string, CollisionSprite*> collObjs;
 		std::unordered_map<std::string, Background*> bgs;
 		SDL_Window* win;
 		SDL_Renderer* ren;
+		Character* player;
 		int renderStart;
+		void mouseDown(SDL_MouseButtonEvent* mb);
+		void keyDown(SDL_Keycode* key);
+		bool running;
+		void(*rightMB)();
+		void(*leftMB)();
+		void(*keyEscape)();
+		SDL_Point* p;
 	};
 
 	extern GameController gc;

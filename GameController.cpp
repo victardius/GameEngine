@@ -1,5 +1,7 @@
 #include "GameController.h"
 
+#define FPS 60
+
 namespace gameEngine {
 
 	GameController::GameController() {
@@ -15,6 +17,10 @@ namespace gameEngine {
 		win = SDL_CreateWindow("Game", 100, 100, 640, 640, 0);
 		ren = SDL_CreateRenderer(win, -1, 0);
 
+	}
+
+	void GameController::start() {
+		eventHandler();
 	}
 
 	void GameController::renderReset() {
@@ -85,6 +91,83 @@ namespace gameEngine {
 
 	void GameController::removeBackground(std::string n) {
 		bgs.erase(n);
+	}
+
+	void GameController::setPlayer(Character* p) {
+		player = p;
+	}
+
+	Character* GameController::getPlayer() {
+		return player;
+	}
+
+	void GameController::eventHandler() {
+		const int tickInterval = 1000 / FPS;
+		running = true;
+		while (running) {
+			Uint32 nextTick = SDL_GetTicks() + tickInterval;
+			SDL_Event event;
+			while (SDL_PollEvent(&event)) {
+				switch (event.type) {
+				case SDL_QUIT: running = false; break;
+				case SDL_MOUSEBUTTONDOWN: {
+					mouseDown(&event.button);
+				} break;
+				case SDL_KEYDOWN: {
+					keyDown(&event.key.keysym.sym);
+				} break;
+				}
+			}
+			gc.renderReset();
+			int delay = nextTick - SDL_GetTicks();
+			if (delay > 0)
+				SDL_Delay(delay);
+		}
+	}
+
+	void GameController::mouseDown(SDL_MouseButtonEvent* mb) {
+		SDL_Point point = { mb->x, mb->y };
+		p = &point;
+		if (mb->button == SDL_BUTTON_RIGHT) {
+			rightMB();
+		}
+		else if (mb->button == SDL_BUTTON_LEFT) {
+			leftMB();
+		}
+	}
+
+	void GameController::keyDown(SDL_Keycode* key) {
+		if (*key == SDLK_ESCAPE)
+			keyEscape();
+	}
+
+	void GameController::SetRightMouseButton(void(*function)()) {
+		rightMB = function;
+	}
+
+	void GameController::SetLeftMouseButton(void(*function)()) {
+		leftMB = function;
+	}
+
+	void GameController::SetEscapeKey(void(*function)()) {
+		keyEscape = function;
+	}
+
+	void GameController::quit() {
+		running = false;
+	}
+
+	SDL_Rect* GameController::checkPoint(SDL_Point* p) {
+		for (auto& b : *gc.getBackgrounds()) {
+			if (SDL_PointInRect(p, b.second->getRect())) {
+				return b.second->getRect();
+			}
+		}
+		return nullptr;
+	}
+
+	SDL_Rect* GameController::getMPos() {
+		return checkPoint(p);
 	}
 
 	GameController::~GameController() {

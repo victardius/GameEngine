@@ -40,7 +40,9 @@ namespace gameEngine {
 		moveTargetY = -1;
 	}
 
-	void Character::moveTarget(SDL_Rect* b) {
+	void Character::moveTarget() {
+		SDL_Rect* b;
+		b = gc.getMPos();
 		moveTargetX = b->x + (b->w / 2) - (getRect()->w / 2);
 		moveTargetY = b->y + (b->h / 2) - (getRect()->h / 2);
 		startX = getRect()->x;
@@ -52,8 +54,10 @@ namespace gameEngine {
 		focusY = moveTargetY + directionY * 100;
 	}
 
-	void Character::shoot(SDL_Rect* b) {
+	void Character::shoot() {
 		stop();
+		SDL_Rect* b;
+		b = gc.getMPos();
 		focusX = b->x;
 		focusY = b->y;
 		std::cout << "pew pew" << std::endl;

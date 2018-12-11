@@ -9,8 +9,8 @@ namespace gameEngine {
 	class Character : public CollisionSprite {
 	public:
 		static Character* getInstance(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY);
-		void moveTarget(SDL_Rect* b);
-		void shoot(SDL_Rect* b); //add weapon later
+		void moveTarget();
+		void shoot(); //add weapon later
 		void takeDamage(int amount);
 		int getHealth();
 		double getSpeed();

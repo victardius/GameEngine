@@ -13,18 +13,24 @@ namespace gameEngine {
 	{
 	public:
 		~EventController();
+		static EventController* getInstance() {
+			return new EventController();
+		}
 		void eventHandler();
-		void addPlayer(int pHealth, int pSpeed, const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
-		Character* getPlayer();
+		void SetRightMouseButton(void (*function)());
+		void SetLeftMouseButton(void(*function)());
+		void SetEscapeKey(void(*function)());
 		void quit();
 	protected:
 		EventController();
 		SDL_Rect* checkPoint(SDL_Point* p);
 	private:
-		virtual void mouseDown(SDL_MouseButtonEvent* mb) = 0;
-		virtual void keyDown(SDL_Keycode* key) = 0;
-		Character* player;
+		void mouseDown(SDL_MouseButtonEvent* mb);
+		void keyDown(SDL_Keycode* key);
 		bool running;
+		void(*rightMB)();
+		void(*leftMB)();
+		void(*keyEscape)();
 	};
 
 }
