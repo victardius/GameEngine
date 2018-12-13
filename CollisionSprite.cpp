@@ -6,28 +6,64 @@ namespace gameEngine {
 
 	CollisionSprite::CollisionSprite(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) : Sprite(path, spriteName, posX, posY, sizeW, sizeH)
 	{
+		
+	}
+
+	void CollisionSprite::createColliders() {
+		colliders.clear();
+		const int width = getRect()->w;
+		const int height = getRect()->h;
+		int count = 0;
+
+		for (int h = 0; h < height; h++) {
+			int x = 0, y = 0, wi = 0;
+			bool coll = false;
+			for (int w = 0; w < width; w++) {
+				if (isOpaque(w, h)) {
+					if (coll) {
+						wi++;
+					}
+					else {
+						coll = true;
+						x = w + getRect()->x;
+						y = h + getRect()->y;
+						wi = 1;
+					}
+				}
+				else if (coll) {
+					coll = false;
+					SDL_Rect* r = new SDL_Rect{ x,y,wi,1 };
+					colliders.push_back(r);
+				}
+			}
+		}
 	}
 
 	void CollisionSprite::checkCollision(CollisionSprite* cs) {
-			SDL_Rect* r = intersectRects(cs);
-			if (r != nullptr) {
-				for (int y = 0; y < r->h; y++) {
-					for (int x = 0; x < r->w; x++) {
-						int posX = r->x + x;
-						int posY = r->y + y;
-						if (isOpaque(posX, posY)) {
-							if (cs->isOpaque(posX, posY)) {
-								collisionEvent();
+		SDL_Rect* r = intersectRects(cs);
+		if (r != nullptr) {
+			for (int y = 0; y < r->h; y++) {
+				for (int x = 0; x < r->w; x++) {
+					int posX = r->x + x;
+					int posY = r->y + y;
+					SDL_Point p1 = { posX, posY };
+					for (SDL_Rect* r1 : colliders) {
+						if (SDL_PointInRect(&p1, r1)) {
+							for (SDL_Rect* r2 : cs->getColliders()) {
+								if (SDL_PointInRect(&p1, r2)) {
+									collisionEvent();
+								}
 							}
 						}
 					}
 				}
+			}
 		}
 	}
 
 	bool CollisionSprite::isOpaque(int x, int y) {
-		x -= getRect()->x;
-		y -= getRect()->y;
+		/*x -= getRect()->x;
+		y -= getRect()->y;*/
 		SDL_LockSurface(getSurface());
 		int bytes = getSurface()->format->BytesPerPixel;
 		char* p = (char*)getSurface()->pixels + y * getSurface()->pitch + x * bytes;
@@ -70,10 +106,6 @@ namespace gameEngine {
 		}
 
 		return nullptr;
-	}
-
-	void CollisionSprite::createColliders() {
-
 	}
 
 }

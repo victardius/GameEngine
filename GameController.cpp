@@ -19,7 +19,14 @@ namespace gameEngine {
 
 	}
 
+	GameController* GameController::getInstance() {
+		return new GameController();
+	}
+
 	void GameController::start() {
+		for (auto& co : collObjs) {
+			co->createColliders();
+		}
 		eventHandler();
 	}
 
@@ -28,16 +35,16 @@ namespace gameEngine {
 		for (auto& co1 : collObjs) {
 			for (auto& co2 : collObjs) {
 				if (co1 != co2) {
-					co1.second->checkCollision(co2.second);
+					co1->checkCollision(co2);
 				}
 			}
 		}
 		SDL_RenderClear(ren);
 		for (auto& bg : bgs) {
-			bg.second->tick();
+			bg->tick();
 		}
 		for (auto& co : collObjs) {
-			co.second->tick();
+			co->tick();
 		}
 		SDL_RenderPresent(ren);
 	}
@@ -48,12 +55,12 @@ namespace gameEngine {
 
 	void GameController::addBackground(const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
 		Background* bg = Background::getInstance(path, name, x, y, sizeX, sizeY);
-		bgs.emplace(name, bg);
+		bgs.push_back(bg);
 	}
 
 	Character* GameController::addCharacter(int pHealth, int pSpeed, const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
 		Character* character = Character::getInstance(pHealth, pSpeed, path, name, x, y, sizeX, sizeY);
-		collObjs.emplace(name, character);
+		collObjs.push_back(character);
 		return character;
 	}
 
@@ -77,20 +84,44 @@ namespace gameEngine {
 		return ren;
 	}
 
-	std::unordered_map<std::string, CollisionSprite*>* GameController::getCollidingObjects() {
+	std::vector<CollisionSprite*>* GameController::getCollidingObjects() {
 		return &collObjs;
 	}
 
-	std::unordered_map<std::string, Background*>* GameController::getBackgrounds() {
+	std::vector<Background*>* GameController::getBackgrounds() {
 		return &bgs;
 	}
 
-	void GameController::removeCollidingObject(std::string n) {
-		collObjs.erase(n);
+	void GameController::removeCollidingObject(CollisionSprite* n) {
+		removeCollObjs.push_back(n);
 	}
 
-	void GameController::removeBackground(std::string n) {
-		bgs.erase(n);
+	void GameController::removeBackground(Background* n) {
+		removeBgs.push_back(n);
+	}
+
+	void GameController::removeObjects() {
+		for (CollisionSprite* cs : removeCollObjs) {
+			for (std::vector<CollisionSprite*>::iterator i = collObjs.begin(); i != collObjs.end(); )
+				if (*i == cs) {
+					i = collObjs.erase(i);
+					delete cs;
+				}
+				else
+					i++;
+		}
+		removeCollObjs.clear();
+
+		for (Background* bg : removeBgs) {
+			for (std::vector<Background*>::iterator i = bgs.begin(); i != bgs.end(); )
+				if (*i == bg) {
+					i = bgs.erase(i);
+					delete bg;
+				}
+				else
+					i++;
+		}
+		removeBgs.clear();
 	}
 
 	void GameController::setPlayer(Character* p) {
@@ -118,7 +149,8 @@ namespace gameEngine {
 				} break;
 				}
 			}
-			gc.renderReset();
+			removeObjects();
+			renderReset();
 			int delay = nextTick - SDL_GetTicks();
 			if (delay > 0)
 				SDL_Delay(delay);
@@ -159,8 +191,8 @@ namespace gameEngine {
 
 	SDL_Rect* GameController::checkPoint(SDL_Point* p) {
 		for (auto& b : *gc.getBackgrounds()) {
-			if (SDL_PointInRect(p, b.second->getRect())) {
-				return b.second->getRect();
+			if (SDL_PointInRect(p, b->getRect())) {
+				return b->getRect();
 			}
 		}
 		return nullptr;
@@ -178,6 +210,6 @@ namespace gameEngine {
 		SDL_Quit();
 	}
 
-	GameController gc;
+	GameController gc = *GameController::getInstance();
 
 }

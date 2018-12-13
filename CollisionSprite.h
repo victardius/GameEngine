@@ -10,6 +10,8 @@ namespace gameEngine {
 	{
 	public:
 		void checkCollision(CollisionSprite* cs);
+		std::vector<SDL_Rect*> getColliders() { return colliders; }
+		void createColliders();
 	protected:
 		CollisionSprite(const char* path, std::string spriteName, int posX = 0, int posY = 0, int sizeW = 0, int sizeH = 0);
 		virtual void collisionEvent() = 0; //måste överskuggas i en spelimplemmentering
@@ -18,7 +20,6 @@ namespace gameEngine {
 		bool isOpaque(int x, int y);
 		SDL_Rect* intersectRects(CollisionSprite* cs);
 		SDL_Rect collRect;
-		void createColliders();
 		std::vector<SDL_Rect*> colliders;
 	};
 

@@ -70,8 +70,8 @@ namespace gameEngine {
 
 	SDL_Rect* EventController::checkPoint(SDL_Point* p) {
 		for (auto& b : *gc.getBackgrounds()) {
-			if (SDL_PointInRect(p, b.second->getRect())) {
-				return b.second->getRect();
+			if (SDL_PointInRect(p, b->getRect())) {
+				return b->getRect();
 			}
 		}
 		return nullptr;
