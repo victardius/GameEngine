@@ -70,7 +70,7 @@ namespace gameEngine {
 	}
 
 	void Character::collisionEvent() {
-		std::cerr << "Kollision!\n";
+		
 	}
 
 	void Character::setSpeed(int amount) {
