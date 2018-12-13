@@ -3,12 +3,9 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include <unordered_map>
-#include <string>
-#include <iostream>
 #include "Sprite.h"
 #include "Character.h"
-#include "EventController.h"
+#include "System.h"
 
 namespace gameEngine {
 
@@ -20,12 +17,10 @@ namespace gameEngine {
 		~GameController();
 		void renderReset();
 		void createBG(int amount, const char* path);
-		SDL_Renderer* getRen();
 		std::vector<CollisionSprite*>* getCollidingObjects();
 		std::vector<Background*>* getBackgrounds();
 		void removeCollidingObject(CollisionSprite* n);
 		void removeBackground(Background* n);
-		int getRenderStart();
 		Character* getPlayer();
 		void setPlayer(Character* p);
 		void start(); 
@@ -35,6 +30,7 @@ namespace gameEngine {
 		void SetEscapeKey(void(*function)());
 		void quit();
 		SDL_Rect* getMPos();
+		System* getSys();
 	protected:
 		GameController();
 	private:
@@ -43,10 +39,7 @@ namespace gameEngine {
 		std::vector<Background*> bgs;
 		std::vector<CollisionSprite*> removeCollObjs;
 		std::vector<Background*> removeBgs;
-		SDL_Window* win;
-		SDL_Renderer* ren;
 		Character* player;
-		int renderStart;
 		void mouseDown(SDL_MouseButtonEvent* mb);
 		void keyDown(SDL_Keycode* key);
 		bool running;
@@ -55,6 +48,7 @@ namespace gameEngine {
 		void(*keyEscape)();
 		SDL_Point* p;
 		void removeObjects();
+		System* sys;
 	};
 
 	extern GameController gc;

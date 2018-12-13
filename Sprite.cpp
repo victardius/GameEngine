@@ -10,7 +10,7 @@ namespace gameEngine {
 
 	void Sprite::setTexture(const char* path, int posX, int posY, int sizeW, int sizeH) {
 		sf = IMG_Load(path);
-		tx = SDL_CreateTextureFromSurface(gc.getRen(), sf);
+		tx = SDL_CreateTextureFromSurface(gc.getSys()->getRen(), sf);
 		if (!(sizeW > 0 && sizeH > 0))
 			SDL_QueryTexture(tx, NULL, NULL, &sizeW, &sizeH);
 		rect = { posX, posY, sizeW, sizeH };
@@ -22,7 +22,7 @@ namespace gameEngine {
 	}
 
 	void Sprite::rdrCpy() {
-		SDL_RenderCopy(gc.getRen(), tx, NULL, &rect);
+		SDL_RenderCopy(gc.getSys()->getRen(), tx, NULL, &rect);
 	}
 
 	void Sprite::moveTo(int newX, int newY) {

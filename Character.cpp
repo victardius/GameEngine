@@ -96,12 +96,12 @@ namespace gameEngine {
 		int x = getRect()->x;
 		int y = getRect()->y;
 		double angle = atan2(focusY - y, focusX - x) * 180 / PI;
-		SDL_SetRenderDrawColor(gc.getRen(), 255, 255, 0, 255);
-		SDL_RenderFillRect(gc.getRen(), getRect());
-		SDL_RenderCopyEx(gc.getRen(), getTx(), NULL, getRect(), angle, NULL, SDL_FLIP_NONE);
+		SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 255, 0, 255);
+		SDL_RenderFillRect(gc.getSys()->getRen(), getRect());
+		SDL_RenderCopy(gc.getSys()->getRen(), getTx(), NULL, getRect());
 		for (SDL_Rect* r : getColliders()) {
-			SDL_SetRenderDrawColor(gc.getRen(), 255, 0, 0, 255);
-			SDL_RenderFillRect(gc.getRen(), r);
+			SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 0, 0, 255);
+			SDL_RenderFillRect(gc.getSys()->getRen(), r);
 		}
 	}
 

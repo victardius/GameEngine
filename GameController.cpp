@@ -5,22 +5,15 @@
 namespace gameEngine {
 
 	GameController::GameController() {
-		SDL_Init(SDL_INIT_EVERYTHING);
-
-		int flags = IMG_INIT_PNG;
-		int initted = IMG_Init(flags);
-		if ((initted&flags) != flags) {
-			std::cout << "IMG_Init: Failed to init required png support!\n" << std::endl;
-			std::cout << "IMG_Init: %s\n" << IMG_GetError() << std::endl;
-		}
-
-		win = SDL_CreateWindow("Game", 100, 100, 640, 640, 0);
-		ren = SDL_CreateRenderer(win, -1, 0);
-
+		sys = System::getInstance();
 	}
 
 	GameController* GameController::getInstance() {
 		return new GameController();
+	}
+
+	System* GameController::getSys() {
+		return sys;
 	}
 
 	void GameController::start() {
@@ -31,7 +24,7 @@ namespace gameEngine {
 	}
 
 	void GameController::renderReset() {
-		renderStart = SDL_GetTicks();
+		//sys->getRenderStart() = SDL_GetTicks();
 		for (auto& co1 : collObjs) {
 			for (auto& co2 : collObjs) {
 				if (co1 != co2) {
@@ -39,18 +32,14 @@ namespace gameEngine {
 				}
 			}
 		}
-		SDL_RenderClear(ren);
+		SDL_RenderClear(sys->getRen());
 		for (auto& bg : bgs) {
 			bg->tick();
 		}
 		for (auto& co : collObjs) {
 			co->tick();
 		}
-		SDL_RenderPresent(ren);
-	}
-
-	int GameController::getRenderStart() {
-		return renderStart;
+		SDL_RenderPresent(sys->getRen());
 	}
 
 	void GameController::addBackground(const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
@@ -78,10 +67,6 @@ namespace gameEngine {
 				posY += 64;
 			}
 		}
-	}
-
-	SDL_Renderer* GameController::getRen() {
-		return ren;
 	}
 
 	std::vector<CollisionSprite*>* GameController::getCollidingObjects() {
@@ -160,17 +145,23 @@ namespace gameEngine {
 	void GameController::mouseDown(SDL_MouseButtonEvent* mb) {
 		SDL_Point point = { mb->x, mb->y };
 		p = &point;
-		if (mb->button == SDL_BUTTON_RIGHT) {
+		switch (mb->button) {
+		case SDL_BUTTON_RIGHT:
 			rightMB();
-		}
-		else if (mb->button == SDL_BUTTON_LEFT) {
+			break;
+		case SDL_BUTTON_LEFT:
 			leftMB();
+			break;
 		}
+		
 	}
 
 	void GameController::keyDown(SDL_Keycode* key) {
-		if (*key == SDLK_ESCAPE)
+		switch (*key) {
+		case SDLK_ESCAPE:
 			keyEscape();
+			break;
+		}
 	}
 
 	void GameController::SetRightMouseButton(void(*function)()) {
@@ -205,8 +196,8 @@ namespace gameEngine {
 	GameController::~GameController() {
 		bgs.clear();
 		collObjs.clear();
-		SDL_DestroyRenderer(ren);
-		SDL_DestroyWindow(win);
+		SDL_DestroyRenderer(sys->getRen());
+		SDL_DestroyWindow(sys->getWin());
 		SDL_Quit();
 	}
 
