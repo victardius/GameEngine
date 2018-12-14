@@ -92,16 +92,34 @@ namespace gameEngine {
 		health = amount;
 	}
 
+	void Character::setAnimation(Animator* ani) {
+		anim = ani;
+	}
+
+	Animator* Character::getAnimation() {
+		return anim;
+	}
+
 	void Character::rdrCpy() {
 		int x = getRect()->x;
 		int y = getRect()->y;
 		double angle = atan2(focusY - y, focusX - x) * 180 / PI;
 		SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 255, 0, 255);
-		SDL_RenderFillRect(gc.getSys()->getRen(), getRect());
-		SDL_RenderCopy(gc.getSys()->getRen(), getTx(), NULL, getRect());
+		//SDL_RenderFillRect(gc.getSys()->getRen(), getRect());
+		if (anim == nullptr)
+			SDL_RenderCopy(gc.getSys()->getRen(), getTx(), NULL, getRect());
+		else {
+			if (anim->isAngleBased()) {
+				anim->renderFrame(abs(angle), getRect());
+			}
+			else {
+				int frame = 0;
+				anim->renderFrame(frame, getRect());
+			}
+		}
 		for (SDL_Rect* r : getColliders()) {
 			SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 0, 0, 255);
-			SDL_RenderFillRect(gc.getSys()->getRen(), r);
+			//SDL_RenderFillRect(gc.getSys()->getRen(), r);
 		}
 	}
 

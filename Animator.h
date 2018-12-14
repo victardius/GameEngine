@@ -9,7 +9,10 @@ namespace gameEngine {
 	class Animator
 	{
 	public:
-		Animator* getInstance(const char* sheetPath, int w, int h, int frames);
+		static Animator* getInstance(const char* sheetPath, int w, int h, int frames);
+		void renderFrame(int frame, SDL_Rect* dest);
+		void setAngleBased(bool b);
+		bool isAngleBased();
 		~Animator();
 	protected:
 		Animator(const char* sheetPath, int w, int h, int frames);
@@ -17,7 +20,8 @@ namespace gameEngine {
 		SDL_Surface* sf;
 		SDL_Texture* tx;
 		SDL_Rect* rect;
-		int totSizeW, totSizeH;
+		bool angleBased = false;
+		int totSizeW, totSizeH, frames;
 	};
 
 }
