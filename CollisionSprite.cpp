@@ -6,7 +6,7 @@ namespace gameEngine {
 
 	CollisionSprite::CollisionSprite(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) : Sprite(path, spriteName, posX, posY, sizeW, sizeH)
 	{
-		
+		createColliders();
 	}
 
 	void CollisionSprite::createColliders() {
@@ -14,6 +14,12 @@ namespace gameEngine {
 		const int width = getRect()->w;
 		const int height = getRect()->h;
 		int count = 0;
+		/*SDL_Rect* r;
+		if (getAnimation() == nullptr)
+			r = getRect();
+		else {
+			r = getAnimation()->getRect();
+		}*/
 
 		for (int h = 0; h < height; h++) {
 			int x = 0, y = 0, wi = 0;
@@ -62,9 +68,15 @@ namespace gameEngine {
 	}
 
 	bool CollisionSprite::isOpaque(int x, int y) {
-		SDL_LockSurface(getSurface());
-		int bytes = getSurface()->format->BytesPerPixel;
-		char* p = (char*)getSurface()->pixels + y * getSurface()->pitch + x * bytes;
+		SDL_Surface* sf;
+		/*if (getAnimation() == nullptr)
+			*/sf = getSurface();/*
+		else {
+			sf = getAnimation()->getSurf();
+		}*/
+		SDL_LockSurface(sf);
+		int bytes = sf->format->BytesPerPixel;
+		char* p = (char*)sf->pixels + y * getSurface()->pitch + x * bytes;
 		Uint32 pixel;
 		switch (bytes)
 		{
@@ -84,9 +96,9 @@ namespace gameEngine {
 				pixel = *(Uint32*)p;
 				break;
 		}
-		SDL_UnlockSurface(getSurface());
+		SDL_UnlockSurface(sf);
 		Uint8 red, green, blue, alpha;
-		SDL_GetRGBA(pixel, getSurface()->format, &red, &green, &blue, &alpha);
+		SDL_GetRGBA(pixel, sf->format, &red, &green, &blue, &alpha);
 		return alpha > 225;
 	}
 
@@ -104,6 +116,11 @@ namespace gameEngine {
 		}
 
 		return nullptr;
+	}
+
+	void CollisionSprite::setAnimation(Animator* anim) {
+		Sprite::setAnimation(anim);
+		createColliders();
 	}
 
 }

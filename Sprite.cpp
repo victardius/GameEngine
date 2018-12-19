@@ -13,7 +13,7 @@ namespace gameEngine {
 		tx = SDL_CreateTextureFromSurface(gc.getSys()->getRen(), sf);
 		if (!(sizeW > 0 && sizeH > 0))
 			SDL_QueryTexture(tx, NULL, NULL, &sizeW, &sizeH);
-		rect = { posX, posY, sizeW, sizeH };
+		rect = new SDL_Rect { posX, posY, sizeW, sizeH };
 		
 	}
 
@@ -22,17 +22,17 @@ namespace gameEngine {
 	}
 
 	void Sprite::rdrCpy() {
-		SDL_RenderCopy(gc.getSys()->getRen(), tx, NULL, &rect);
+		SDL_RenderCopy(gc.getSys()->getRen(), tx, NULL, rect);
 	}
 
 	void Sprite::moveTo(int newX, int newY) {
-		rect.x = newX;
-		rect.y = newY;
+		rect->x = newX;
+		rect->y = newY;
 	}
 
 	void Sprite::setSize(int sX, int sY) {
-		rect.w = sX;
-		rect.h = sY;
+		rect->w = sX;
+		rect->h = sY;
 	}
 
 	std::string Sprite::getName() {
@@ -48,14 +48,15 @@ namespace gameEngine {
 	}
 
 	SDL_Rect* Sprite::getRect() {
-		return &rect;
+		return rect;
 	}
 
-	void Sprite::resetSize() {
-		int sizeX, sizeY;
-		SDL_QueryTexture(tx, NULL, NULL, &sizeX, &sizeY);
-		rect.w = sizeX;
-		rect.h = sizeY;
+	void Sprite::setAnimation(Animator* ani) {
+		anim = ani;
+	}
+
+	Animator* Sprite::getAnimation() {
+		return anim;
 	}
 
 	Sprite::~Sprite() {

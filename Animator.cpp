@@ -13,10 +13,10 @@ namespace gameEngine {
 		int x = 0, y = 0;
 		this->frames = frames;
 		for (int i = 0; i < frames; i++) {
-			if ((y == 0 && w * i > totSizeW) || (y > 0 && w * i > totSizeW * y))
+			if ((y == 0 && w * i >= totSizeW) || (y > 0 && w * i > totSizeW * (y + 1)))
 				y++;
 			x = (w * i) - (totSizeW * y);
-			rect[i] = {x, y * h, w, h};
+			rect[i] = {x, (y * h), w, h};
 		}
 	}
 
@@ -28,11 +28,15 @@ namespace gameEngine {
 		if (!angleBased)
 			SDL_RenderCopy(gc.getSys()->getRen(), tx, &rect[frame], dest);
 		else {
+			if (frame < 0)
+				frame += 360;
 			double a = 360 / frames;
 			a = frame / a;
-			a = round(a) - 1;
-			int b = a;
-			SDL_RenderCopy(gc.getSys()->getRen(), tx, &rect[b], dest);
+			a = round(a);
+			currentFrame = a;
+			if (currentFrame == frames)
+				currentFrame = 0;
+			SDL_RenderCopy(gc.getSys()->getRen(), tx, &rect[currentFrame], dest);
 		}
 	}
 
@@ -42,6 +46,22 @@ namespace gameEngine {
 
 	bool Animator::isAngleBased() {
 		return angleBased;
+	}
+
+	SDL_Rect* Animator::getRect() {
+		return &rect[currentFrame];
+	}
+
+	SDL_Surface* Animator::getSurf() {
+		return sf;
+	}
+
+	int Animator::getXDiff() {
+		return rect->x - getRect()->x;
+	}
+
+	int Animator::getYDiff() {
+		return rect->y - getRect()->y;
 	}
 
 	Animator::~Animator()

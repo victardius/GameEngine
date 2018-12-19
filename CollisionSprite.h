@@ -2,6 +2,7 @@
 #define COLLISIONSPRITE_H
 
 #include "Sprite.h"
+#include "Animator.h"
 #include <vector>
 
 namespace gameEngine {
@@ -12,6 +13,7 @@ namespace gameEngine {
 		void checkCollision(CollisionSprite* cs);
 		std::vector<SDL_Rect*> getColliders() { return colliders; }
 		void createColliders();
+		void setAnimation(Animator* anim);
 	protected:
 		CollisionSprite(const char* path, std::string spriteName, int posX = 0, int posY = 0, int sizeW = 0, int sizeH = 0);
 		virtual void collisionEvent() = 0; //måste överskuggas i en spelimplemmentering

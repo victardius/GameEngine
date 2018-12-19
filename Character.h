@@ -18,8 +18,6 @@ namespace gameEngine {
 		void setHealth(int amount);
 		void setSpeed(int amount);
 		void tick();
-		void setAnimation(Animator* anim);
-		Animator* getAnimation();
 	protected:
 		Character(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY);
 		void collisionEvent();
@@ -32,7 +30,6 @@ namespace gameEngine {
 		int moveTargetX = -1, moveTargetY = -1, focusX = 0, focusY = 0;
 		void rdrCpy();
 		void stop();
-		Animator* anim = nullptr;
 	};
 
 }

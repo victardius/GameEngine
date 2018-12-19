@@ -13,6 +13,10 @@ namespace gameEngine {
 		void renderFrame(int frame, SDL_Rect* dest);
 		void setAngleBased(bool b);
 		bool isAngleBased();
+		SDL_Rect* getRect();
+		SDL_Surface* getSurf();
+		int getXDiff();
+		int getYDiff();
 		~Animator();
 	protected:
 		Animator(const char* sheetPath, int w, int h, int frames);
@@ -21,7 +25,7 @@ namespace gameEngine {
 		SDL_Texture* tx;
 		SDL_Rect* rect;
 		bool angleBased = false;
-		int totSizeW, totSizeH, frames;
+		int totSizeW, totSizeH, frames, currentFrame;
 	};
 
 }

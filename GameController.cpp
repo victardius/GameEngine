@@ -17,9 +17,9 @@ namespace gameEngine {
 	}
 
 	void GameController::start() {
-		for (auto& co : collObjs) {
+		/*for (auto& co : collObjs) {
 			co->createColliders();
-		}
+		}*/
 		eventHandler();
 	}
 
