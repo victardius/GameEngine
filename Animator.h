@@ -14,9 +14,11 @@ namespace gameEngine {
 		void setAngleBased(bool b);
 		bool isAngleBased();
 		SDL_Rect* getRect();
+		SDL_Rect* getActiveRect();
 		SDL_Surface* getSurf();
 		int getXDiff();
 		int getYDiff();
+		int getFrames();
 		~Animator();
 	protected:
 		Animator(const char* sheetPath, int w, int h, int frames);

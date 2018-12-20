@@ -49,6 +49,10 @@ namespace gameEngine {
 	}
 
 	SDL_Rect* Animator::getRect() {
+		return rect;
+	}
+
+	SDL_Rect* Animator::getActiveRect() {
 		return &rect[currentFrame];
 	}
 
@@ -62,6 +66,10 @@ namespace gameEngine {
 
 	int Animator::getYDiff() {
 		return rect->y - getRect()->y;
+	}
+
+	int Animator::getFrames() {
+		return frames;
 	}
 
 	Animator::~Animator()

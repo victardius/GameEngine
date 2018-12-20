@@ -11,38 +11,46 @@ namespace gameEngine {
 
 	void CollisionSprite::createColliders() {
 		colliders.clear();
-		const int width = getRect()->w;
-		const int height = getRect()->h;
-		int count = 0;
-		/*SDL_Rect* r;
+		std::vector<SDL_Rect*> r;
 		if (getAnimation() == nullptr)
-			r = getRect();
+			r.push_back(getRect());
 		else {
-			r = getAnimation()->getRect();
-		}*/
+			for (int i = 0; i < getAnimation()->getFrames(); i++)
+			r.push_back(&getAnimation()->getRect()[i]);
+		}
+		int count = 0;
 
-		for (int h = 0; h < height; h++) {
-			int x = 0, y = 0, wi = 0;
-			bool coll = false;
-			for (int w = 0; w < width; w++) {
-				if (isOpaque(w, h)) {
-					if (coll) {
-						wi++;
+		for (SDL_Rect* re : r) {
+			const int width = re->w;
+			const int height = re->h;
+			std::vector<SDL_Rect*> v;
+			colliders.emplace(re, v);
+			for (int h = 0; h < height; h++) {
+				int x = 0, y = 0, wi = 0;
+				bool coll = false;
+				for (int w = 0; w < width; w++) {
+					if (isOpaque(w, h)) {
+						if (coll) {
+							wi++;
+						}
+						else {
+							coll = true;
+							x = w + re->x;
+							y = h + re->y;
+							wi = 1;
+						}
 					}
-					else {
-						coll = true;
-						x = w + getRect()->x;
-						y = h + getRect()->y;
-						wi = 1;
+					else if (coll) {
+						coll = false;
+						SDL_Rect* rect = new SDL_Rect{ x,y,wi,1 };
+						colliders.at(re).push_back(rect);
+						count++;
 					}
-				}
-				else if (coll) {
-					coll = false;
-					SDL_Rect* r = new SDL_Rect{ x,y,wi,1 };
-					colliders.push_back(r);
 				}
 			}
 		}
+		std::cerr << count << std::endl;
+		std::cerr << colliders.at(getActiveRect()).size() << "   " << std::endl;
 	}
 
 	void CollisionSprite::checkCollision(CollisionSprite* cs) {
@@ -53,9 +61,9 @@ namespace gameEngine {
 					int posX = r->x + x;
 					int posY = r->y + y;
 					SDL_Point p1 = { posX, posY };
-					for (SDL_Rect* r1 : colliders) {
+					for (SDL_Rect* r1 : colliders.at(getActiveRect())) {
 						if (SDL_PointInRect(&p1, r1)) {
-							for (SDL_Rect* r2 : cs->getColliders()) {
+							for (SDL_Rect* r2 : cs->getColliders().at(cs->getActiveRect())) {
 								if (SDL_PointInRect(&p1, r2)) {
 									collisionEvent();
 								}
@@ -69,11 +77,11 @@ namespace gameEngine {
 
 	bool CollisionSprite::isOpaque(int x, int y) {
 		SDL_Surface* sf;
-		/*if (getAnimation() == nullptr)
-			*/sf = getSurface();/*
+		if (getAnimation() == nullptr)
+			sf = getSurface();
 		else {
 			sf = getAnimation()->getSurf();
-		}*/
+		}
 		SDL_LockSurface(sf);
 		int bytes = sf->format->BytesPerPixel;
 		char* p = (char*)sf->pixels + y * getSurface()->pitch + x * bytes;

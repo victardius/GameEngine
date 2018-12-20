@@ -4,6 +4,7 @@
 #include "Sprite.h"
 #include "Animator.h"
 #include <vector>
+#include <unordered_map>
 
 namespace gameEngine {
 
@@ -11,7 +12,7 @@ namespace gameEngine {
 	{
 	public:
 		void checkCollision(CollisionSprite* cs);
-		std::vector<SDL_Rect*> getColliders() { return colliders; }
+		std::unordered_map<SDL_Rect*, std::vector<SDL_Rect*>> getColliders() { return colliders; }
 		void createColliders();
 		void setAnimation(Animator* anim);
 	protected:
@@ -22,7 +23,8 @@ namespace gameEngine {
 		bool isOpaque(int x, int y);
 		SDL_Rect* intersectRects(CollisionSprite* cs);
 		SDL_Rect collRect;
-		std::vector<SDL_Rect*> colliders;
+		//std::vector<SDL_Rect*> colliders;
+		std::unordered_map<SDL_Rect*, std::vector<SDL_Rect*>> colliders;
 	};
 
 }

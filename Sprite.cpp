@@ -6,6 +6,8 @@ namespace gameEngine {
 	Sprite::Sprite(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
 		name = spriteName;
 		setTexture(path, posX, posY, sizeW, sizeH);
+		startX = posX;
+		startY = posY;
 	}
 
 	void Sprite::setTexture(const char* path, int posX, int posY, int sizeW, int sizeH) {
@@ -50,6 +52,14 @@ namespace gameEngine {
 	SDL_Rect* Sprite::getRect() {
 		return rect;
 	}
+	
+	SDL_Rect* Sprite::getActiveRect() {
+		if (anim == nullptr)
+			activeRect = rect;
+		else
+			activeRect = anim->getActiveRect();
+		return activeRect;
+	}
 
 	void Sprite::setAnimation(Animator* ani) {
 		anim = ani;
@@ -57,6 +67,14 @@ namespace gameEngine {
 
 	Animator* Sprite::getAnimation() {
 		return anim;
+	}
+
+	int Sprite::getXSinceStart() {
+		return startX - getRect()->x;
+	}
+
+	int Sprite::getYSinceStart() {
+		return startY - getRect()->y;
 	}
 
 	Sprite::~Sprite() {

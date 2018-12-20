@@ -22,7 +22,7 @@ namespace gameEngine {
 	void Character::move() {
 		if (moveTargetX >= 0 && moveTargetY >= 0) {
 
-			for (SDL_Rect* r : getColliders()) {
+			for (SDL_Rect* r : getColliders().at(getActiveRect())) {
 				r->x += directionX * speed;
 				r->y += directionY * speed;
 			}
@@ -70,7 +70,7 @@ namespace gameEngine {
 	}
 
 	void Character::collisionEvent() {
-		
+		std::cerr << "Kollision!" << std::endl;
 	}
 
 	void Character::setSpeed(int amount) {
@@ -96,7 +96,7 @@ namespace gameEngine {
 		int x = getRect()->x;
 		int y = getRect()->y;
 		double angle = atan2(focusY - y, focusX - x) * 180 / PI;
-		SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 255, 0, 255);
+		//SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 255, 0, 255);
 		//SDL_RenderFillRect(gc.getSys()->getRen(), getRect());
 		if (getAnimation() == nullptr)
 			SDL_RenderCopy(gc.getSys()->getRen(), getTx(), NULL, getRect());
@@ -109,8 +109,10 @@ namespace gameEngine {
 				getAnimation()->renderFrame(frame, getRect());
 			}
 		}
-		for (SDL_Rect* r : getColliders()) {
-			SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 0, 0, 255);
+		for (SDL_Rect* r : getColliders().at(getActiveRect())) {
+			r->x += x;
+			r->y += y;
+			SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 255, 0, 255);
 			SDL_RenderFillRect(gc.getSys()->getRen(), r);
 		}
 	}
