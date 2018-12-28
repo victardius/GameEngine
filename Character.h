@@ -2,7 +2,6 @@
 #define CHARACTER_H
 
 #include "CollisionSprite.h"
-#include "Background.h"
 #include "Animator.h"
 #include "Coordinate.h"
 

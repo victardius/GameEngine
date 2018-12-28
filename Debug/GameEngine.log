@@ -1,5 +1,2 @@
 ﻿  Main.cpp
-  Player.cpp
-c:\users\horan\documents\github\gameengine\player.cpp(33): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-  Generating Code...
   GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe

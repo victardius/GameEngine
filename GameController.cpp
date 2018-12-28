@@ -165,8 +165,6 @@ namespace gameEngine {
 	GameController::~GameController() {
 		bgs.clear();
 		collObjs.clear();
-		SDL_DestroyRenderer(sys->getRen());
-		SDL_DestroyWindow(sys->getWin());
 		SDL_Quit();
 	}
 

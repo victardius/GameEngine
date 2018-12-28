@@ -15,16 +15,16 @@ namespace gameEngine {
 		std::unordered_map<SDL_Rect*, std::vector<SDL_Rect*>> getColliders() { return colliders; }
 		void createColliders();
 		void setAnimation(Animator* anim);
+		~CollisionSprite();
 	protected:
 		CollisionSprite(Animator* animat, std::string spriteName, int posX = 0, int posY = 0);
-		virtual void collisionEvent() = 0; //måste överskuggas i en spelimplemmentering
-		bool collided = false;
+		virtual void collisionEvent() = 0;
 	private:
 		bool isOpaque(int x, int y);
 		SDL_Rect* intersectRects(CollisionSprite* cs);
 		SDL_Rect collRect;
-		//std::vector<SDL_Rect*> colliders;
 		std::unordered_map<SDL_Rect*, std::vector<SDL_Rect*>> colliders;
+		bool collided = false;
 	};
 
 }

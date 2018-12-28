@@ -35,6 +35,8 @@ namespace gameEngine {
 
 	System::~System()
 	{
+		SDL_DestroyRenderer(ren);
+		SDL_DestroyWindow(win);
 	}
 
 }

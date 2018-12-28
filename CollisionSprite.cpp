@@ -108,7 +108,6 @@ namespace gameEngine {
 		int yBottom = std::min(cs->getRect()->y + cs->getRect()->h, getRect()->y + getRect()->h);
 		int width = xRight - xLeft;
 		int height = yBottom - yTop;
-
 		if (width > 0 && height > 0) {
 			collRect = { xLeft, yTop, width, height };
 			return &collRect;
@@ -120,6 +119,10 @@ namespace gameEngine {
 	void CollisionSprite::setAnimation(Animator* anim) {
 		Sprite::setAnimation(anim);
 		createColliders();
+	}
+
+	CollisionSprite::~CollisionSprite() {
+		colliders.clear();
 	}
 
 }

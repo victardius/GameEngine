@@ -25,22 +25,6 @@ namespace gameEngine {
 		return new Animator(sheetPath, w, h, frames);
 	}
 
-	/*void Animator::renderFrame(int frame, SDL_Rect* dest) {
-		if (!angleBased)
-			SDL_RenderCopy(gc.getSys()->getRen(), tx, &rect[frame], dest);
-		else {
-			if (frame < 0)
-				frame += 360;
-			double a = 360 / frames;
-			a = frame / a;
-			a = round(a);
-			currentFrame = a;
-			if (currentFrame == frames)
-				currentFrame = 0;
-			SDL_RenderCopy(gc.getSys()->getRen(), tx, &rect[currentFrame], dest);
-		}
-	}*/
-
 	SDL_Rect* Animator::getRect() {
 		return rect;
 	}
@@ -73,6 +57,9 @@ namespace gameEngine {
 
 	Animator::~Animator()
 	{
+		SDL_FreeSurface(sf);
+		SDL_DestroyTexture(tx);
+		delete rect;
 	}
 
 }
