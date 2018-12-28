@@ -1,4 +1,5 @@
 #include <cmath>
+#include <stdexcept>
 #include "Animator.h"
 #include "GameController.h"
 
@@ -24,7 +25,7 @@ namespace gameEngine {
 		return new Animator(sheetPath, w, h, frames);
 	}
 
-	void Animator::renderFrame(int frame, SDL_Rect* dest) {
+	/*void Animator::renderFrame(int frame, SDL_Rect* dest) {
 		if (!angleBased)
 			SDL_RenderCopy(gc.getSys()->getRen(), tx, &rect[frame], dest);
 		else {
@@ -38,22 +39,16 @@ namespace gameEngine {
 				currentFrame = 0;
 			SDL_RenderCopy(gc.getSys()->getRen(), tx, &rect[currentFrame], dest);
 		}
-	}
-
-	void Animator::setAngleBased(bool b) {
-		angleBased = b;
-	}
-
-	bool Animator::isAngleBased() {
-		return angleBased;
-	}
+	}*/
 
 	SDL_Rect* Animator::getRect() {
 		return rect;
 	}
 
-	SDL_Rect* Animator::getActiveRect() {
-		return &rect[currentFrame];
+	SDL_Rect* Animator::getActiveRect(int frame) {
+		if (frame > (frames -1) || frame < 0)
+			throw std::out_of_range("Loading sprite frame is out of bounds!");
+		return &rect[frame];
 	}
 
 	SDL_Surface* Animator::getSurf() {
@@ -70,6 +65,10 @@ namespace gameEngine {
 
 	int Animator::getFrames() {
 		return frames;
+	}
+
+	SDL_Texture* Animator::getTx() {
+		return tx;
 	}
 
 	Animator::~Animator()

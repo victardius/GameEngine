@@ -3,20 +3,12 @@
 
 namespace gameEngine {
 
-	Sprite::Sprite(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
-		name = spriteName;
-		setTexture(path, posX, posY, sizeW, sizeH);
-		startX = posX;
-		startY = posY;
+	Sprite::Sprite(Animator* animat, std::string spriteName, int posX, int posY) : name(spriteName), startX(posX), startY(posY), anim(animat){
+		setTexture(posX, posY);
 	}
 
-	void Sprite::setTexture(const char* path, int posX, int posY, int sizeW, int sizeH) {
-		sf = IMG_Load(path);
-		tx = SDL_CreateTextureFromSurface(gc.getSys()->getRen(), sf);
-		if (!(sizeW > 0 && sizeH > 0))
-			SDL_QueryTexture(tx, NULL, NULL, &sizeW, &sizeH);
-		rect = new SDL_Rect { posX, posY, sizeW, sizeH };
-		
+	void Sprite::setTexture(int posX, int posY) {
+		rect = new SDL_Rect { posX, posY, anim->getRect()->w, anim->getRect()->h };
 	}
 
 	void Sprite::tick() {
@@ -24,7 +16,7 @@ namespace gameEngine {
 	}
 
 	void Sprite::rdrCpy() {
-		SDL_RenderCopy(gc.getSys()->getRen(), tx, NULL, rect);
+		SDL_RenderCopy(gc.getSys()->getRen(), anim->getTx(), anim->getActiveRect(currentFrame), rect);
 	}
 
 	void Sprite::moveTo(int newX, int newY) {
@@ -32,33 +24,12 @@ namespace gameEngine {
 		rect->y = newY;
 	}
 
-	void Sprite::setSize(int sX, int sY) {
-		rect->w = sX;
-		rect->h = sY;
-	}
-
 	std::string Sprite::getName() {
 		return name;
 	}
 
-	SDL_Surface* Sprite::getSurface() {
-		return sf;
-	}
-
-	SDL_Texture* Sprite::getTx() {
-		return tx;
-	}
-
 	SDL_Rect* Sprite::getRect() {
 		return rect;
-	}
-	
-	SDL_Rect* Sprite::getActiveRect() {
-		if (anim == nullptr)
-			activeRect = rect;
-		else
-			activeRect = anim->getActiveRect();
-		return activeRect;
 	}
 
 	void Sprite::setAnimation(Animator* ani) {
@@ -77,9 +48,15 @@ namespace gameEngine {
 		return startY - getRect()->y;
 	}
 
+	void Sprite::changeFrame(int f) {
+		currentFrame = f;
+	}
+
+	int Sprite::getCurrentFrame() {
+		return currentFrame;
+	}
+
 	Sprite::~Sprite() {
-		SDL_FreeSurface(sf);
-		SDL_DestroyTexture(tx);
 	}
 
 }

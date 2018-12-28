@@ -2,11 +2,11 @@
 
 namespace gameEngine {
 
-	Text::Text(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) : Sprite(path, spriteName, posX, posY, sizeW, sizeH)
+	Text::Text(Animator* animat, std::string spriteName, int posX, int posY) : Sprite(animat, spriteName, posX, posY)
 	{
 	}
 
-	Text* Text::getInstance(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) {
+	Text* Text::getInstance(Animator* animat, std::string spriteName, int posX, int posY) {
 		return this;
 	}
 

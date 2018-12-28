@@ -3,8 +3,9 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Sprite.h"
-#include "Character.h"
+#include <utility>
+#include "CollisionSprite.h"
+#include "Background.h"
 #include "System.h"
 
 namespace gameEngine {
@@ -12,23 +13,19 @@ namespace gameEngine {
 	class GameController {
 	public:
 		static GameController* getInstance();
-		void addBackground(const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
-		Character* addCharacter(int pHealth, int pSpeed, const char* path, std::string name, int x = 0, int y = 0, int sizeX = 0, int sizeY = 0);
+		void addBackground(Background* bg);
+		CollisionSprite* addCollisionSprite(CollisionSprite* character);
 		~GameController();
 		void renderReset();
-		void createBG(int amount, const char* path);
+		void createBG(int amount, Animator* animat);
 		std::vector<CollisionSprite*>* getCollidingObjects();
 		std::vector<Background*>* getBackgrounds();
 		void removeCollidingObject(CollisionSprite* n);
 		void removeBackground(Background* n);
-		Character* getPlayer();
-		void setPlayer(Character* p);
 		void start(); 
 		void eventHandler();
-		void SetRightMouseButton(void(*function)());
-		void SetLeftMouseButton(void(*function)());
-		void SetEscapeKey(void(*function)());
 		void quit();
+		void addFunction(int i, void(*f)());
 		SDL_Rect* getMPos();
 		System* getSys();
 	protected:
@@ -39,13 +36,10 @@ namespace gameEngine {
 		std::vector<Background*> bgs;
 		std::vector<CollisionSprite*> removeCollObjs;
 		std::vector<Background*> removeBgs;
-		Character* player;
+		std::vector<std::pair<int, void(*)()>> functions;
 		void mouseDown(SDL_MouseButtonEvent* mb);
-		void keyDown(SDL_Keycode* key);
+		void keyDown(const int key);
 		bool running;
-		void(*rightMB)();
-		void(*leftMB)();
-		void(*keyEscape)();
 		SDL_Point* p;
 		void removeObjects();
 		System* sys;

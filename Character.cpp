@@ -1,17 +1,14 @@
-#include <cmath>
 #include "Character.h"
 #include "GameController.h"
 
-#define PI 3.14159265
+using namespace gameEngine;
 
-namespace gameEngine {
-
-	Character::Character(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) : CollisionSprite(path, spriteName, x, y, sizeX, sizeY), health(pHealth), speed(pSpeed) {
+	Character::Character(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y) : CollisionSprite(animat, spriteName, x, y), health(pHealth), speed(pSpeed) {
 
 	}
 
-	Character* Character::getInstance(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY) {
-		return new Character(pHealth, pSpeed, path, spriteName, x, y, sizeX, sizeY);
+	Character* Character::getInstance(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y) {
+		return new Character(pHealth, pSpeed, animat, spriteName, x, y);
 	}
 
 	void Character::tick() {
@@ -22,7 +19,7 @@ namespace gameEngine {
 	void Character::move() {
 		if (moveTargetX >= 0 && moveTargetY >= 0) {
 
-			for (SDL_Rect* r : getColliders().at(getActiveRect())) {
+			for (SDL_Rect* r : getColliders().at(getAnimation()->getActiveRect(getCurrentFrame()))) {
 				r->x += directionX * speed;
 				r->y += directionY * speed;
 			}
@@ -92,29 +89,6 @@ namespace gameEngine {
 		health = amount;
 	}
 
-	void Character::rdrCpy() {
-		int x = getRect()->x;
-		int y = getRect()->y;
-		double angle = atan2(focusY - y, focusX - x) * 180 / PI;
-		//SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 255, 0, 255);
-		//SDL_RenderFillRect(gc.getSys()->getRen(), getRect());
-		if (getAnimation() == nullptr)
-			SDL_RenderCopy(gc.getSys()->getRen(), getTx(), NULL, getRect());
-		else {
-			if (getAnimation()->isAngleBased()) {
-				getAnimation()->renderFrame(angle, getRect());
-			}
-			else {
-				int frame = 0;
-				getAnimation()->renderFrame(frame, getRect());
-			}
-		}
-		for (SDL_Rect* r : getColliders().at(getActiveRect())) {
-			r->x += x;
-			r->y += y;
-			SDL_SetRenderDrawColor(gc.getSys()->getRen(), 255, 255, 0, 255);
-			SDL_RenderFillRect(gc.getSys()->getRen(), r);
-		}
+	Coordinate* Character::getFocus() {
+		return new Coordinate(focusX, focusY);
 	}
-
-}

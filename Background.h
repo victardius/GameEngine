@@ -7,9 +7,9 @@ namespace gameEngine {
 
 	class Background : public Sprite {
 	public:
-		static Background* getInstance(const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY);
+		static Background* getInstance(Animator* animat, std::string spriteName, int x, int y);
 	protected:
-		Background(const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY);
+		Background(Animator* animat, std::string spriteName, int x, int y);
 	private:
 	};
 

@@ -17,9 +17,6 @@ namespace gameEngine {
 	}
 
 	void GameController::start() {
-		/*for (auto& co : collObjs) {
-			co->createColliders();
-		}*/
 		eventHandler();
 	}
 
@@ -42,25 +39,23 @@ namespace gameEngine {
 		SDL_RenderPresent(sys->getRen());
 	}
 
-	void GameController::addBackground(const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
-		Background* bg = Background::getInstance(path, name, x, y, sizeX, sizeY);
+	void GameController::addBackground(Background* bg) {
 		bgs.push_back(bg);
 	}
 
-	Character* GameController::addCharacter(int pHealth, int pSpeed, const char* path, std::string name, int x, int y, int sizeX, int sizeY) {
-		Character* character = Character::getInstance(pHealth, pSpeed, path, name, x, y, sizeX, sizeY);
+	CollisionSprite* GameController::addCollisionSprite(CollisionSprite* character) {
 		collObjs.push_back(character);
 		return character;
 	}
 
-	void GameController::createBG(int amount, const char* path) {
+	void GameController::createBG(int amount, Animator* animat) {
 		std::string name = "background0";
 		char c = '0';
 		int posX = 0, posY = 0, total = 0;
 		for (int i = 0; i < amount; i++) {
 			name.replace(10, 1, &c);
 			c++;
-			addBackground(path, name, posX, posY);
+			addBackground(Background::getInstance(animat, name, posX, posY));
 			posX += 64;
 			if (posX == 640) {
 				posX = 0;
@@ -109,14 +104,6 @@ namespace gameEngine {
 		removeBgs.clear();
 	}
 
-	void GameController::setPlayer(Character* p) {
-		player = p;
-	}
-
-	Character* GameController::getPlayer() {
-		return player;
-	}
-
 	void GameController::eventHandler() {
 		const int tickInterval = 1000 / FPS;
 		running = true;
@@ -130,7 +117,7 @@ namespace gameEngine {
 					mouseDown(&event.button);
 				} break;
 				case SDL_KEYDOWN: {
-					keyDown(&event.key.keysym.sym);
+					keyDown(event.key.keysym.sym);
 				} break;
 				}
 			}
@@ -145,39 +132,21 @@ namespace gameEngine {
 	void GameController::mouseDown(SDL_MouseButtonEvent* mb) {
 		SDL_Point point = { mb->x, mb->y };
 		p = &point;
-		switch (mb->button) {
-		case SDL_BUTTON_RIGHT:
-			rightMB();
-			break;
-		case SDL_BUTTON_LEFT:
-			leftMB();
-			break;
-		}
-		
+		keyDown(mb->button);
 	}
 
-	void GameController::keyDown(SDL_Keycode* key) {
-		switch (*key) {
-		case SDLK_ESCAPE:
-			keyEscape();
-			break;
-		}
-	}
-
-	void GameController::SetRightMouseButton(void(*function)()) {
-		rightMB = function;
-	}
-
-	void GameController::SetLeftMouseButton(void(*function)()) {
-		leftMB = function;
-	}
-
-	void GameController::SetEscapeKey(void(*function)()) {
-		keyEscape = function;
+	void GameController::keyDown(const int key) {
+		for (auto& func : functions)
+			if (func.first == key)
+				func.second();
 	}
 
 	void GameController::quit() {
 		running = false;
+	}
+
+	void GameController::addFunction(int i, void(*f)()) {
+		functions.push_back(std::make_pair(i, f));
 	}
 
 	SDL_Rect* GameController::checkPoint(SDL_Point* p) {

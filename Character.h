@@ -4,12 +4,13 @@
 #include "CollisionSprite.h"
 #include "Background.h"
 #include "Animator.h"
+#include "Coordinate.h"
 
-namespace gameEngine {
+using namespace gameEngine;
 
 	class Character : public CollisionSprite {
 	public:
-		static Character* getInstance(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY);
+		static Character* getInstance(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y);
 		void moveTarget();
 		void shoot(); //add weapon later
 		void takeDamage(int amount);
@@ -18,20 +19,18 @@ namespace gameEngine {
 		void setHealth(int amount);
 		void setSpeed(int amount);
 		void tick();
+		Coordinate* getFocus();
 	protected:
-		Character(int pHealth, int pSpeed, const char* path, std::string spriteName, int x, int y, int sizeX, int sizeY);
+		Character(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y);
 		void collisionEvent();
+		void move();
 	private:
 		int health;
 		int speed;
 		int startX, startY;
 		double distance, directionX, directionY;
-		void move();
 		int moveTargetX = -1, moveTargetY = -1, focusX = 0, focusY = 0;
-		void rdrCpy();
 		void stop();
 	};
-
-}
 
 #endif

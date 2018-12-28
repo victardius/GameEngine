@@ -4,7 +4,7 @@
 
 namespace gameEngine {
 
-	CollisionSprite::CollisionSprite(const char* path, std::string spriteName, int posX, int posY, int sizeW, int sizeH) : Sprite(path, spriteName, posX, posY, sizeW, sizeH)
+	CollisionSprite::CollisionSprite(Animator* animat, std::string spriteName, int posX, int posY) : Sprite(animat, spriteName, posX, posY)
 	{
 		createColliders();
 	}
@@ -12,19 +12,15 @@ namespace gameEngine {
 	void CollisionSprite::createColliders() {
 		colliders.clear();
 		std::vector<SDL_Rect*> r;
-		if (getAnimation() == nullptr)
-			r.push_back(getRect());
-		else {
-			for (int i = 0; i < getAnimation()->getFrames(); i++)
+		for (int i = 0; i < getAnimation()->getFrames(); i++)
 			r.push_back(&getAnimation()->getRect()[i]);
-		}
 		int count = 0;
 
-		for (SDL_Rect* re : r) {
-			const int width = re->w;
-			const int height = re->h;
+		for (int i = 0; i < getAnimation()->getFrames(); i++) {
+			const int width = (&getAnimation()->getRect()[i])->w;
+			const int height = (&getAnimation()->getRect()[i])->h;
 			std::vector<SDL_Rect*> v;
-			colliders.emplace(re, v);
+			colliders.emplace((&getAnimation()->getRect()[i]), v);
 			for (int h = 0; h < height; h++) {
 				int x = 0, y = 0, wi = 0;
 				bool coll = false;
@@ -35,22 +31,22 @@ namespace gameEngine {
 						}
 						else {
 							coll = true;
-							x = w + re->x;
-							y = h + re->y;
+							x = w + (&getAnimation()->getRect()[i])->x;
+							y = h + (&getAnimation()->getRect()[i])->y;
 							wi = 1;
 						}
 					}
 					else if (coll) {
 						coll = false;
 						SDL_Rect* rect = new SDL_Rect{ x,y,wi,1 };
-						colliders.at(re).push_back(rect);
+						colliders.at((&getAnimation()->getRect()[i])).push_back(rect);
 						count++;
 					}
 				}
 			}
 		}
-		std::cerr << count << std::endl;
-		std::cerr << colliders.at(getActiveRect()).size() << "   " << std::endl;
+		/*std::cerr << count << std::endl;
+		std::cerr << colliders.at(getActiveRect()).size() << "   " << std::endl;*/
 	}
 
 	void CollisionSprite::checkCollision(CollisionSprite* cs) {
@@ -61,9 +57,9 @@ namespace gameEngine {
 					int posX = r->x + x;
 					int posY = r->y + y;
 					SDL_Point p1 = { posX, posY };
-					for (SDL_Rect* r1 : colliders.at(getActiveRect())) {
+					for (SDL_Rect* r1 : colliders.at(getAnimation()->getActiveRect(getCurrentFrame()))) {
 						if (SDL_PointInRect(&p1, r1)) {
-							for (SDL_Rect* r2 : cs->getColliders().at(cs->getActiveRect())) {
+							for (SDL_Rect* r2 : cs->getColliders().at(cs->getAnimation()->getActiveRect(getCurrentFrame()))) {
 								if (SDL_PointInRect(&p1, r2)) {
 									collisionEvent();
 								}
@@ -76,15 +72,10 @@ namespace gameEngine {
 	}
 
 	bool CollisionSprite::isOpaque(int x, int y) {
-		SDL_Surface* sf;
-		if (getAnimation() == nullptr)
-			sf = getSurface();
-		else {
-			sf = getAnimation()->getSurf();
-		}
+		SDL_Surface* sf = getAnimation()->getSurf();
 		SDL_LockSurface(sf);
 		int bytes = sf->format->BytesPerPixel;
-		char* p = (char*)sf->pixels + y * getSurface()->pitch + x * bytes;
+		char* p = (char*)sf->pixels + y * sf->pitch + x * bytes;
 		Uint32 pixel;
 		switch (bytes)
 		{

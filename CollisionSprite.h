@@ -16,7 +16,7 @@ namespace gameEngine {
 		void createColliders();
 		void setAnimation(Animator* anim);
 	protected:
-		CollisionSprite(const char* path, std::string spriteName, int posX = 0, int posY = 0, int sizeW = 0, int sizeH = 0);
+		CollisionSprite(Animator* animat, std::string spriteName, int posX = 0, int posY = 0);
 		virtual void collisionEvent() = 0; //måste överskuggas i en spelimplemmentering
 		bool collided = false;
 	private:
