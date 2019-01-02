@@ -25,6 +25,7 @@ namespace gameEngine {
 	protected:
 		Sprite(Animator* animat, std::string spriteName, int posX = 0, int posY = 0);
 		void rdrCpy();
+		virtual void tickFunction() = 0;
 	private:
 		SDL_Rect* rect;
 		std::string name;

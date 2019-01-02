@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameController.h"
 #include <cmath>
 #define PI 3.14159265
 
@@ -12,7 +13,7 @@ Player* Player::getInstance(int pHealth, int pSpeed, Animator* animat, std::stri
 	return new Player(pHealth, pSpeed, animat, spriteName, x, y);
 }
 
-void Player::tick() {
+void Player::tickFunction() {
 	move();
 	angleToFrame();
 	rdrCpy();

@@ -11,18 +11,12 @@ using namespace gameEngine;
 		return new Character(pHealth, pSpeed, animat, spriteName, x, y);
 	}
 
-	void Character::tick() {
+	void Character::tickFunction() {
 		move();
-		rdrCpy();
 	}
 
 	void Character::move() {
 		if (moveTargetX >= 0 && moveTargetY >= 0) {
-
-			for (SDL_Rect* r : getColliders().at(getAnimation()->getActiveRect(getCurrentFrame()))) {
-				r->x += directionX * speed;
-				r->y += directionY * speed;
-			}
 
 			getRect()->x += directionX * speed;
 			getRect()->y += directionY * speed;

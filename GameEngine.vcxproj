@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="Character.h" />

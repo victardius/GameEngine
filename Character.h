@@ -17,12 +17,12 @@ using namespace gameEngine;
 		double getSpeed();
 		void setHealth(int amount);
 		void setSpeed(int amount);
-		void tick();
 		Coordinate* getFocus();
 	protected:
 		Character(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y);
 		void collisionEvent();
 		void move();
+		virtual void tickFunction();
 	private:
 		int health;
 		int speed;

@@ -95,5 +95,8 @@
     <ClInclude Include="Coordinate.h">
       <Filter>Game\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>GameEngine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

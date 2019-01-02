@@ -8,9 +8,9 @@ class Player : public Character {
 public:
 	static Player* getInstance(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y);
 	~Player();
-	void tick();
 protected:
 	Player(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y);
+	virtual void tickFunction();
 private:
 	void angleToFrame();
 };

@@ -10,6 +10,7 @@ namespace gameEngine {
 		static Background* getInstance(Animator* animat, std::string spriteName, int x, int y);
 	protected:
 		Background(Animator* animat, std::string spriteName, int x, int y);
+		virtual void tickFunction();
 	private:
 	};
 

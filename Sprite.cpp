@@ -12,6 +12,7 @@ namespace gameEngine {
 	}
 
 	void Sprite::tick() {
+		tickFunction();
 		rdrCpy();
 	}
 

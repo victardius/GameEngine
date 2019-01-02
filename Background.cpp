@@ -11,4 +11,8 @@ namespace gameEngine {
 		return new Background(animat, spriteName, x, y);
 	}
 
+	void Background::tickFunction() {
+
+	}
+
 }
