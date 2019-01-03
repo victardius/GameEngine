@@ -2,15 +2,28 @@
 #define TEXT_H
 
 #include "Sprite.h"
+#include <SDL_ttf.h>
+#include <memory>
 
 namespace gameEngine {
 
 	class Text : public Sprite
 	{
 	public:
-		Text* getInstance(Animator* animat, std::string spriteName, int posX = 0, int posY = 0);
+		static std::shared_ptr<Text> getInstance(std::shared_ptr<Animator> animat, std::string spriteName, std::string txt, const char* fontPath, SDL_Color* c, int size, int posX = 0, int posY = 0);
+		void tick();
+		~Text();
 	protected:
-		Text(Animator* animat, std::string spriteName, int posX, int posY);
+		Text(std::shared_ptr<Animator> animat, std::string spriteName, std::string txt, const char* fontPath, SDL_Color* c, int size, int posX, int posY);
+		virtual void tickFunction();
+	private:
+		TTF_Font* font;
+		std::string text;
+		SDL_Surface* txtSurf;
+		SDL_Texture* txtTx;
+		SDL_Color* color;
+		void createText();
+		void renderText();
 	};
 
 }

@@ -6,11 +6,23 @@ namespace gameEngine {
 	{
 		SDL_Init(SDL_INIT_EVERYTHING);
 
-		int flags = IMG_INIT_PNG;
-		int initted = IMG_Init(flags);
-		if ((initted&flags) != flags) {
-			std::cout << "IMG_Init: Failed to init required png support!\n" << std::endl;
-			std::cout << "IMG_Init: %s\n" << IMG_GetError() << std::endl;
+		int imgFlags = IMG_INIT_PNG;
+		int imgInitted = IMG_Init(imgFlags);
+		if ((imgInitted&imgFlags) != imgFlags) {
+			std::cerr << "IMG_Init: Failed to init required png support!\n" << std::endl;
+			std::cerr << "IMG_Init: %s\n" << IMG_GetError() << std::endl;
+		}
+
+		if (TTF_Init() == -1) {
+			printf("TTF_Init: %s\n", TTF_GetError());
+			exit(2);
+		}
+
+		int mixFlags = MIX_INIT_OGG | MIX_INIT_MOD;
+		int mixInitted = Mix_Init(mixFlags);
+		if (mixInitted&mixFlags != mixFlags) {
+			std::cerr << "Mix_Init: Failed to init required ogg and mod support!\n" << std::endl;
+			std::cerr << "Mix_Init: %s\n" << Mix_GetError() << std::endl;
 		}
 
 		win = SDL_CreateWindow("Game", 100, 100, 640, 640, 0);
@@ -20,10 +32,6 @@ namespace gameEngine {
 	System* System::getInstance() {
 		return new System();
 	}
-
-	/*int System::getRenderStart() {
-		return renderStart;
-	}*/
 
 	SDL_Renderer* System::getRen() {
 		return ren;

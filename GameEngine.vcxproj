@@ -82,7 +82,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\SDL2-2.0.9\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -137,7 +137,6 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Background.h" />
-    <ClInclude Include="Collider.h" />
     <ClInclude Include="Coordinate.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="Character.h" />

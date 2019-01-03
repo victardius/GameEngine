@@ -4,7 +4,7 @@
 
 namespace gameEngine {
 
-	CollisionSprite::CollisionSprite(Animator* animat, std::string spriteName, int posX, int posY) : Sprite(animat, spriteName, posX, posY)
+	CollisionSprite::CollisionSprite(std::shared_ptr<Animator> animat, std::string spriteName, int posX, int posY) : Sprite(animat, spriteName, posX, posY)
 	{
 		createColliders();
 	}
@@ -30,7 +30,7 @@ namespace gameEngine {
 		for (int i = 0; i < getAnimation()->getFrames(); i++) {
 			const int width = (&getAnimation()->getRect()[i])->w;
 			const int height = (&getAnimation()->getRect()[i])->h;
-			std::vector<SDL_Rect*> v;
+			std::vector<std::shared_ptr<SDL_Rect>> v;
 			colliders.emplace((&getAnimation()->getRect()[i]), v);
 			for (int h = 0; h < height; h++) {
 				int x = 0, y = 0, wi = 0;
@@ -49,16 +49,16 @@ namespace gameEngine {
 					}
 					else if (coll) {
 						coll = false;
-						SDL_Rect* r = new SDL_Rect{ x,y,wi,1 };
+						std::shared_ptr<SDL_Rect> r = std::shared_ptr<SDL_Rect>(new SDL_Rect{ x,y,wi,1 });
 						colliders.at((&getAnimation()->getRect()[i])).push_back(r);
-						colliderPos.emplace(r, new SDL_Point{ x - getRect()->x, h });
+						colliderPos.emplace(r, std::shared_ptr<SDL_Point>(new SDL_Point{ x - getRect()->x, h }));
 					}
 				}
 			}
 		}
 	}
 
-	void CollisionSprite::checkCollision(CollisionSprite* cs) {
+	void CollisionSprite::checkCollision(std::shared_ptr<CollisionSprite> cs) {
 		SDL_Rect* r = intersectRects(cs);
 		if (r != nullptr) {
 			for (int y = 0; y < r->h; y++) {
@@ -75,7 +75,7 @@ namespace gameEngine {
 
 	bool CollisionSprite::pointInCollider(SDL_Point* p) {
 		for (auto& r1 : colliders.at(getAnimation()->getActiveRect(getCurrentFrame()))) {
-			if (SDL_PointInRect(p, r1)) {
+			if (SDL_PointInRect(p, r1.get())) {
 				return true;
 			}
 		}
@@ -112,7 +112,7 @@ namespace gameEngine {
 		return alpha > 225;
 	}
 
-	SDL_Rect* CollisionSprite::intersectRects(CollisionSprite* cs) {
+	SDL_Rect* CollisionSprite::intersectRects(std::shared_ptr<CollisionSprite> cs) {
 		int xLeft = std::max(cs->getRect()->x, getRect()->x);
 		int yTop = std::max(cs->getRect()->y, getRect()->y);
 		int xRight = std::min(cs->getRect()->x + cs->getRect()->w, getRect()->x + getRect()->w);
@@ -127,12 +127,13 @@ namespace gameEngine {
 		return nullptr;
 	}
 
-	void CollisionSprite::setAnimation(Animator* anim) {
+	void CollisionSprite::setAnimation(std::shared_ptr<Animator> anim) {
 		Sprite::setAnimation(anim);
 		createColliders();
 	}
 
 	CollisionSprite::~CollisionSprite() {
 		colliders.clear();
+		colliderPos.clear();
 	}
 }

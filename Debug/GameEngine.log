@@ -1,16 +1,3 @@
-﻿  Animator.cpp
-  Background.cpp
-  Character.cpp
-c:\users\horan\documents\github\gameengine\character.cpp(21): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-c:\users\horan\documents\github\gameengine\character.cpp(22): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
-c:\users\horan\documents\github\gameengine\character.cpp(46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\horan\documents\github\gameengine\character.cpp(47): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-  CollisionSprite.cpp
-  GameController.cpp
-  Main.cpp
-  Player.cpp
-c:\users\horan\documents\github\gameengine\player.cpp(34): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-  Sprite.cpp
-  Text.cpp
-  Generating Code...
+﻿  System.cpp
+c:\users\horan\documents\github\gameengine\system.cpp(23): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
   GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe

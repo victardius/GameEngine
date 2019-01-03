@@ -7,9 +7,9 @@ namespace gameEngine {
 
 	class Background : public Sprite {
 	public:
-		static Background* getInstance(Animator* animat, std::string spriteName, int x, int y);
+		static std::shared_ptr<Background> getInstance(std::shared_ptr<Animator> animat, std::string spriteName, int x, int y);
 	protected:
-		Background(Animator* animat, std::string spriteName, int x, int y);
+		Background(std::shared_ptr<Animator> animat, std::string spriteName, int x, int y);
 		virtual void tickFunction();
 	private:
 	};

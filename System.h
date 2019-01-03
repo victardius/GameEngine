@@ -4,6 +4,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 namespace gameEngine {
 
@@ -12,14 +14,12 @@ namespace gameEngine {
 	public:
 		static System* getInstance();
 		~System();
-		//int getRenderStart();
 		SDL_Renderer* getRen();
 		SDL_Window* getWin();
 	private:
 		System();
 		SDL_Window* win;
 		SDL_Renderer* ren;
-		//int renderStart;
 	};
 
 }

@@ -3,12 +3,12 @@
 
 using namespace gameEngine;
 
-	Character::Character(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y) : CollisionSprite(animat, spriteName, x, y), health(pHealth), speed(pSpeed) {
-
+	Character::Character(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) : CollisionSprite(animat, spriteName, x, y), health(pHealth), speed(pSpeed) {
+		focus = std::shared_ptr<Coordinate>(new Coordinate(0, 0));
 	}
 
-	Character* Character::getInstance(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y) {
-		return new Character(pHealth, pSpeed, animat, spriteName, x, y);
+	std::shared_ptr<Character> Character::getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) {
+		return std::shared_ptr<Character>(new Character(pHealth, pSpeed, animat, spriteName, x, y));
 	}
 
 	void Character::tickFunction() {
@@ -43,16 +43,16 @@ using namespace gameEngine;
 		distance = std::sqrt(std::pow(moveTargetX - startX, 2) + std::pow(moveTargetY - startY, 2));
 		directionX = (moveTargetX - startX) / distance;
 		directionY = (moveTargetY - startY) / distance;
-		focusX = moveTargetX + directionX * 100;
-		focusY = moveTargetY + directionY * 100;
+		focus->x = moveTargetX + directionX * 100;
+		focus->y = moveTargetY + directionY * 100;
 	}
 
 	void Character::shoot() {
 		stop();
 		SDL_Rect* b;
 		b = gc.getMPos();
-		focusX = b->x;
-		focusY = b->y;
+		focus->x = b->x;
+		focus->y = b->y;
 		std::cout << "pew pew" << std::endl;
 	}
 
@@ -83,6 +83,10 @@ using namespace gameEngine;
 		health = amount;
 	}
 
-	Coordinate* Character::getFocus() {
-		return new Coordinate(focusX, focusY);
+	std::shared_ptr<Coordinate> Character::getFocus() {
+		return focus;
+	}
+
+	Character::~Character() {
+		focus.reset();
 	}

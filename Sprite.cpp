@@ -3,12 +3,15 @@
 
 namespace gameEngine {
 
-	Sprite::Sprite(Animator* animat, std::string spriteName, int posX, int posY) : name(spriteName), startX(posX), startY(posY), anim(animat){
+	Sprite::Sprite(std::shared_ptr<Animator> animat, std::string spriteName, int posX, int posY) : name(spriteName), anim(animat){
 		setTexture(posX, posY);
 	}
 
 	void Sprite::setTexture(int posX, int posY) {
-		rect = new SDL_Rect { posX, posY, anim->getRect()->w, anim->getRect()->h };
+		if (anim != NULL || anim != nullptr)
+			rect = new SDL_Rect { posX, posY, anim->getRect()->w, anim->getRect()->h };
+		else
+			rect = new SDL_Rect{ posX, posY, 0, 0 };
 	}
 
 	void Sprite::tick() {
@@ -17,7 +20,8 @@ namespace gameEngine {
 	}
 
 	void Sprite::rdrCpy() {
-		SDL_RenderCopy(gc.getSys()->getRen(), anim->getTx(), anim->getActiveRect(currentFrame), rect);
+		if (anim != NULL || anim != nullptr)
+			SDL_RenderCopy(gc.getSys()->getRen(), anim->getTx(), anim->getActiveRect(currentFrame), rect);
 	}
 
 	void Sprite::moveTo(int newX, int newY) {
@@ -33,20 +37,12 @@ namespace gameEngine {
 		return rect;
 	}
 
-	void Sprite::setAnimation(Animator* ani) {
-		anim = ani;
+	void Sprite::setAnimation(std::shared_ptr<Animator> ani) {
+		anim = std::shared_ptr<Animator>(ani);
 	}
 
-	Animator* Sprite::getAnimation() {
+	std::shared_ptr<Animator> Sprite::getAnimation() {
 		return anim;
-	}
-
-	int Sprite::getXSinceStart() {
-		return startX - getRect()->x;
-	}
-
-	int Sprite::getYSinceStart() {
-		return startY - getRect()->y;
 	}
 
 	void Sprite::changeFrame(int f) {
@@ -58,6 +54,7 @@ namespace gameEngine {
 	}
 
 	Sprite::~Sprite() {
+		anim.reset();
 	}
 
 }

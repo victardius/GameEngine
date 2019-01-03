@@ -5,12 +5,12 @@
 
 using namespace gameEngine;
 
-Player::Player(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y) : Character(pHealth, pSpeed, animat, spriteName, x, y)
+Player::Player(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) : Character(pHealth, pSpeed, animat, spriteName, x, y)
 {
 }
 
-Player* Player::getInstance(int pHealth, int pSpeed, Animator* animat, std::string spriteName, int x, int y) {
-	return new Player(pHealth, pSpeed, animat, spriteName, x, y);
+std::shared_ptr<Player> Player::getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) {
+	return std::shared_ptr<Player>(new Player(pHealth, pSpeed, animat, spriteName, x, y));
 }
 
 void Player::tickFunction() {

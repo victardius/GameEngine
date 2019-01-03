@@ -11,6 +11,10 @@ namespace gameEngine {
 		tx = SDL_CreateTextureFromSurface(gc.getSys()->getRen(), sf);
 		rect = new SDL_Rect[frames];
 		SDL_QueryTexture(tx, NULL, NULL, &totSizeW, &totSizeH);
+		if (w == 0 && h == 0) {
+			w = totSizeW;
+			h = totSizeH;
+		}
 		int x = 0, y = 0;
 		this->frames = frames;
 		for (int i = 0; i < frames; i++) {
@@ -21,8 +25,8 @@ namespace gameEngine {
 		}
 	}
 
-	Animator* Animator::getInstance(const char* sheetPath, int w, int h, int frames) {
-		return new Animator(sheetPath, w, h, frames);
+	std::shared_ptr<Animator> Animator::getInstance(const char* sheetPath, int w, int h, int frames) {
+		return std::shared_ptr<Animator>(new Animator(sheetPath, w, h, frames));
 	}
 
 	SDL_Rect* Animator::getRect() {
@@ -37,14 +41,6 @@ namespace gameEngine {
 
 	SDL_Surface* Animator::getSurf() {
 		return sf;
-	}
-
-	int Animator::getXDiff() {
-		return rect->x - getRect()->x;
-	}
-
-	int Animator::getYDiff() {
-		return rect->y - getRect()->y;
 	}
 
 	int Animator::getFrames() {

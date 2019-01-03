@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include <vector>
+#include <memory>
 
 namespace gameEngine {
 
@@ -15,22 +16,20 @@ namespace gameEngine {
 		void moveTo(int x, int y);
 		virtual void tick();
 		std::string getName();
-		virtual void setAnimation(Animator* anim);
-		Animator* getAnimation();
-		int getXSinceStart();
-		int getYSinceStart();
+		virtual void setAnimation(std::shared_ptr<Animator> anim);
+		std::shared_ptr<Animator> getAnimation();
 		void changeFrame(int f);
 		int getCurrentFrame();
 		~Sprite();
 	protected:
-		Sprite(Animator* animat, std::string spriteName, int posX = 0, int posY = 0);
+		Sprite(std::shared_ptr<Animator> animat, std::string spriteName, int posX = 0, int posY = 0);
 		void rdrCpy();
 		virtual void tickFunction() = 0;
 	private:
 		SDL_Rect* rect;
 		std::string name;
-		Animator* anim = nullptr;
-		int startX, startY, currentFrame = 0;
+		std::shared_ptr<Animator> anim = nullptr;
+		int currentFrame = 0;
 		void setTexture(int posX, int posY);
 	};
 

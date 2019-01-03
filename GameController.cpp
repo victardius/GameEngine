@@ -21,7 +21,6 @@ namespace gameEngine {
 	}
 
 	void GameController::renderReset() {
-		//sys->getRenderStart() = SDL_GetTicks();
 		for (auto& co1 : collObjs) {
 			for (auto& co2 : collObjs) {
 				if (co1 != co2) {
@@ -36,19 +35,25 @@ namespace gameEngine {
 		for (auto& co : collObjs) {
 			co->tick();
 		}
+		for (auto& txt : texts) {
+			txt->tick();
+		}
 		SDL_RenderPresent(sys->getRen());
 	}
 
-	void GameController::addBackground(Background* bg) {
+	void GameController::addBackground(std::shared_ptr<Background> bg) {
 		bgs.push_back(bg);
 	}
 
-	CollisionSprite* GameController::addCollisionSprite(CollisionSprite* character) {
+	void GameController::addCollisionSprite(std::shared_ptr<CollisionSprite> character) {
 		collObjs.push_back(character);
-		return character;
 	}
 
-	void GameController::createBG(int amount, Animator* animat) {
+	void GameController::addText(std::shared_ptr<Text> text) {
+		texts.push_back(text);
+	}
+
+	void GameController::createBG(int amount, std::shared_ptr<Animator> animat) {
 		std::string name = "background0";
 		char c = '0';
 		int posX = 0, posY = 0, total = 0;
@@ -64,44 +69,60 @@ namespace gameEngine {
 		}
 	}
 
-	std::vector<CollisionSprite*>* GameController::getCollidingObjects() {
+	std::vector<std::shared_ptr<CollisionSprite>>* GameController::getCollidingObjects() {
 		return &collObjs;
 	}
 
-	std::vector<Background*>* GameController::getBackgrounds() {
+	std::vector<std::shared_ptr<Background>>* GameController::getBackgrounds() {
 		return &bgs;
 	}
 
-	void GameController::removeCollidingObject(CollisionSprite* n) {
+	std::vector<std::shared_ptr<Text>>* GameController::getTexts() {
+		return &texts;
+	}
+
+	void GameController::removeCollidingObject(std::shared_ptr<CollisionSprite> n) {
 		removeCollObjs.push_back(n);
 	}
 
-	void GameController::removeBackground(Background* n) {
+	void GameController::removeBackground(std::shared_ptr<Background> n) {
 		removeBgs.push_back(n);
 	}
 
+	void GameController::removeText(std::shared_ptr<Text> n) {
+		removeTexts.push_back(n);
+	}
+
 	void GameController::removeObjects() {
-		for (CollisionSprite* cs : removeCollObjs) {
-			for (std::vector<CollisionSprite*>::iterator i = collObjs.begin(); i != collObjs.end(); )
+		for (std::shared_ptr<CollisionSprite> cs : removeCollObjs) {
+			for (std::vector<std::shared_ptr<CollisionSprite>>::iterator i = collObjs.begin(); i != collObjs.end(); )
 				if (*i == cs) {
 					i = collObjs.erase(i);
-					delete cs;
 				}
 				else
 					i++;
 		}
 		removeCollObjs.clear();
 
-		for (Background* bg : removeBgs) {
-			for (std::vector<Background*>::iterator i = bgs.begin(); i != bgs.end(); )
+		for (std::shared_ptr<Background> bg : removeBgs) {
+			for (std::vector<std::shared_ptr<Background>>::iterator i = bgs.begin(); i != bgs.end(); )
 				if (*i == bg) {
 					i = bgs.erase(i);
-					delete bg;
 				}
 				else
 					i++;
 		}
 		removeBgs.clear();
+
+		for (std::shared_ptr<Text> txt : removeTexts) {
+			for (std::vector<std::shared_ptr<Text>>::iterator i = texts.begin(); i != texts.end(); )
+				if (*i == txt) {
+					i = texts.erase(i);
+				}
+				else
+					i++;
+		}
+		removeTexts.clear();
 	}
 
 	void GameController::eventHandler() {
