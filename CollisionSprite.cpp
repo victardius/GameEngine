@@ -4,13 +4,14 @@
 
 namespace gameEngine {
 
-	CollisionSprite::CollisionSprite(std::shared_ptr<Animator> animat, std::string spriteName, int posX, int posY) : Sprite(animat, spriteName, posX, posY)
+	CollisionSprite::CollisionSprite(std::shared_ptr<Animator> animat, std::string spriteName, int posX, int posY, int horizDrag, int vertDrag, int bounce) : Sprite(animat, spriteName, posX, posY), Fysics(posX, posY, horizDrag, vertDrag, bounce)
 	{
 		createColliders();
 	}
 
 	void CollisionSprite::tick() {
 		tickFunction();
+		updatePosition(getRect());
 		updateCollRects();
 		rdrCpy();
 	}
@@ -67,7 +68,7 @@ namespace gameEngine {
 					int posY = r->y + y;
 					SDL_Point p1 = { posX, posY };
 					if (pointInCollider(&p1) && cs->pointInCollider(&p1))
-						collisionEvent();
+						collisionEvent(cs);
 				}
 			}
 		}

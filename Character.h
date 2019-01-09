@@ -10,7 +10,7 @@ using namespace gameEngine;
 
 	class Character : public CollisionSprite {
 	public:
-		static std::shared_ptr<Character> getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y);
+		static std::shared_ptr<Character> getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag = 0, int vertDrag = 0, int bounce = 0);
 		void moveTarget();
 		void shoot(); //add weapon later
 		void takeDamage(int amount);
@@ -21,10 +21,11 @@ using namespace gameEngine;
 		std::shared_ptr<Coordinate> getFocus();
 		~Character();
 	protected:
-		Character(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y);
-		void collisionEvent();
+		Character(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce);
+		void collisionEvent(std::shared_ptr<CollisionSprite> cs);
 		void move();
 		virtual void tickFunction();
+		void stop();
 	private:
 		int counter = 0;
 		int health;
@@ -32,7 +33,6 @@ using namespace gameEngine;
 		int startX, startY;
 		double distance, directionX, directionY;
 		int moveTargetX = -1, moveTargetY = -1, focusX = 0, focusY = 0;
-		void stop();
 		std::shared_ptr<Coordinate> focus;
 	};
 

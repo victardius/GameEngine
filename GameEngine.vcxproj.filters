@@ -63,6 +63,12 @@
     <ClCompile Include="Main.cpp">
       <Filter>Game\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>GameEngine\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fysics.cpp">
+      <Filter>GameEngine\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Text.h">
@@ -94,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="Coordinate.h">
       <Filter>Game\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>GameEngine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fysics.h">
+      <Filter>GameEngine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

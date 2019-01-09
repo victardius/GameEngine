@@ -3,12 +3,12 @@
 
 using namespace gameEngine;
 
-	Character::Character(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) : CollisionSprite(animat, spriteName, x, y), health(pHealth), speed(pSpeed) {
+	Character::Character(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) : CollisionSprite(animat, spriteName, x, y, horizDrag, vertDrag, bounce), health(pHealth), speed(pSpeed) {
 		focus = std::shared_ptr<Coordinate>(new Coordinate(0, 0));
 	}
 
-	std::shared_ptr<Character> Character::getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) {
-		return std::shared_ptr<Character>(new Character(pHealth, pSpeed, animat, spriteName, x, y));
+	std::shared_ptr<Character> Character::getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) {
+		return std::shared_ptr<Character>(new Character(pHealth, pSpeed, animat, spriteName, x, y, horizDrag, vertDrag, bounce));
 	}
 
 	void Character::tickFunction() {
@@ -18,8 +18,7 @@ using namespace gameEngine;
 	void Character::move() {
 		if (moveTargetX >= 0 && moveTargetY >= 0) {
 
-			getRect()->x += directionX * speed;
-			getRect()->y += directionY * speed;
+			movePos((int)(directionX * speed), (int)(directionY * speed));
 
 			if (std::sqrt(std::pow(getRect()->x - startX, 2) + std::pow(getRect()->y - startY, 2)) >= distance)
 			{
@@ -43,8 +42,8 @@ using namespace gameEngine;
 		distance = std::sqrt(std::pow(moveTargetX - startX, 2) + std::pow(moveTargetY - startY, 2));
 		directionX = (moveTargetX - startX) / distance;
 		directionY = (moveTargetY - startY) / distance;
-		focus->x = moveTargetX + directionX * 100;
-		focus->y = moveTargetY + directionY * 100;
+		focus->x = (int)(moveTargetX + directionX * 100);
+		focus->y = (int)(moveTargetY + directionY * 100);
 	}
 
 	void Character::shoot() {
@@ -60,7 +59,7 @@ using namespace gameEngine;
 		return speed;
 	}
 
-	void Character::collisionEvent() {
+	void Character::collisionEvent(std::shared_ptr<CollisionSprite> cs) {
 		//std::cerr << "Kollision!" << std::endl;
 		std::cerr << ++counter << std::endl;
 	}

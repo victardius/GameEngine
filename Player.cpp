@@ -5,18 +5,27 @@
 
 using namespace gameEngine;
 
-Player::Player(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) : Character(pHealth, pSpeed, animat, spriteName, x, y)
+Player::Player(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) : Character(pHealth, pSpeed, animat, spriteName, x, y, horizDrag, vertDrag, bounce)
 {
+	startPos = { x,y };
+	startHealth = pHealth;
+	startSpeed = pSpeed;
 }
 
-std::shared_ptr<Player> Player::getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y) {
-	return std::shared_ptr<Player>(new Player(pHealth, pSpeed, animat, spriteName, x, y));
+std::shared_ptr<Player> Player::getInstance(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) {
+	return std::shared_ptr<Player>(new Player(pHealth, pSpeed, animat, spriteName, x, y, horizDrag, vertDrag, bounce));
 }
 
 void Player::tickFunction() {
 	move();
+	bouncing();
 	angleToFrame();
 	rdrCpy();
+}
+
+void Player::collisionEvent(std::shared_ptr<CollisionSprite> cs) {
+	bounce(new SDL_Point{ cs->getRect()->x, cs->getRect()->y });
+	stop();
 }
 
 void Player::angleToFrame() {
@@ -31,7 +40,13 @@ void Player::angleToFrame() {
 	if (a == getAnimation()->getFrames())
 		changeFrame(0);
 	else
-		changeFrame(a);
+		changeFrame((int)a);
+}
+
+void Player::reset() {
+	*getPosition() = startPos;
+	setHealth(startHealth);
+	setSpeed(startSpeed);
 }
 
 Player::~Player()
