@@ -61,7 +61,8 @@ using namespace gameEngine;
 	}
 
 	void Character::collisionEvent() {
-		std::cerr << "Kollision!" << std::endl;
+		//std::cerr << "Kollision!" << std::endl;
+		std::cerr << ++counter << std::endl;
 	}
 
 	void Character::setSpeed(int amount) {

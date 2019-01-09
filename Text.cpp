@@ -26,14 +26,35 @@ namespace gameEngine {
 	}
 
 	void Text::createText() {
+		if (text == "")
+			text = " ";
 		txtSurf = TTF_RenderText_Solid(font, text.c_str(), *color);
 		txtTx = SDL_CreateTextureFromSurface(gc.getSys()->getRen(), txtSurf);
 		getRect()->w = txtSurf->w;
 		getRect()->h = txtSurf->h;
+		
 	}
 
 	void Text::renderText() {
 		SDL_RenderCopy(gc.getSys()->getRen(), txtTx, NULL, getRect());
+	}
+
+	void Text::setText(std::string s) {
+		text = s;
+		createText();
+	}
+
+	std::string Text::getText() {
+		return text;
+	}
+
+	bool Text::isActive() {
+		return active;
+	}
+	
+	void Text::setActive() {
+		active = !active;
+		gc.setTyping(active);
 	}
 
 	Text::~Text() {

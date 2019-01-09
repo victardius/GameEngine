@@ -5,6 +5,8 @@
 #include <SDL_image.h>
 #include <utility>
 #include <memory>
+#include <unordered_map>
+#include <functional>
 #include "CollisionSprite.h"
 #include "Background.h"
 #include "System.h"
@@ -30,9 +32,11 @@ namespace gameEngine {
 		void start(); 
 		void eventHandler();
 		void quit();
-		void addFunction(int i, void(*f)());
+		void addFunction(int i, std::function<void()> f);
 		SDL_Rect* getMPos();
 		System* getSys();
+		void setFPS(int f);
+		void setTyping(bool b);
 	protected:
 		GameController();
 	private:
@@ -43,13 +47,19 @@ namespace gameEngine {
 		std::vector<std::shared_ptr<CollisionSprite>> removeCollObjs;
 		std::vector<std::shared_ptr<Background>> removeBgs;
 		std::vector<std::shared_ptr<Text>> removeTexts;
-		std::vector<std::pair<int, void(*)()>> functions;
+		//std::vector<std::pair<int, void(*)()>> functions;
+		std::unordered_map<int, std::function<void()>> functions;
 		void mouseDown(SDL_MouseButtonEvent* mb);
-		void keyDown(const int key);
+		void keyDown(SDL_Keycode key);
+		void startFunctions(const int key);
+		void editText(SDL_Keycode event);
 		bool running;
 		SDL_Point* p;
 		void removeObjects();
 		System* sys;
+		int fps = 60;
+		std::string text;
+		bool typing = false;
 	};
 
 	extern GameController gc;

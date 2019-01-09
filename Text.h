@@ -12,6 +12,10 @@ namespace gameEngine {
 	public:
 		static std::shared_ptr<Text> getInstance(std::shared_ptr<Animator> animat, std::string spriteName, std::string txt, const char* fontPath, SDL_Color* c, int size, int posX = 0, int posY = 0);
 		void tick();
+		void setText(std::string s);
+		std::string getText();
+		virtual bool isActive();
+		virtual void setActive();
 		~Text();
 	protected:
 		Text(std::shared_ptr<Animator> animat, std::string spriteName, std::string txt, const char* fontPath, SDL_Color* c, int size, int posX, int posY);
@@ -24,6 +28,7 @@ namespace gameEngine {
 		SDL_Color* color;
 		void createText();
 		void renderText();
+		bool active = false;
 	};
 
 }

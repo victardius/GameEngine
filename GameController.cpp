@@ -1,11 +1,10 @@
 #include "GameController.h"
 
-#define FPS 60
-
 namespace gameEngine {
 
 	GameController::GameController() {
 		sys = System::getInstance();
+		SDL_StartTextInput();
 	}
 
 	GameController* GameController::getInstance() {
@@ -36,6 +35,8 @@ namespace gameEngine {
 			co->tick();
 		}
 		for (auto& txt : texts) {
+			if (txt->isActive())
+				txt->setText(text);
 			txt->tick();
 		}
 		SDL_RenderPresent(sys->getRen());
@@ -126,7 +127,7 @@ namespace gameEngine {
 	}
 
 	void GameController::eventHandler() {
-		const int tickInterval = 1000 / FPS;
+		const int tickInterval = 1000 / fps;
 		running = true;
 		while (running) {
 			Uint32 nextTick = SDL_GetTicks() + tickInterval;
@@ -140,6 +141,10 @@ namespace gameEngine {
 				case SDL_KEYDOWN: {
 					keyDown(event.key.keysym.sym);
 				} break;
+				case SDL_TEXTINPUT: {
+					if (typing)
+						text += event.text.text;
+				} break;
 				}
 			}
 			removeObjects();
@@ -149,25 +154,34 @@ namespace gameEngine {
 				SDL_Delay(delay);
 		}
 	}
-
+	
 	void GameController::mouseDown(SDL_MouseButtonEvent* mb) {
 		SDL_Point point = { mb->x, mb->y };
 		p = &point;
-		keyDown(mb->button);
+		startFunctions(mb->button);
 	}
 
-	void GameController::keyDown(const int key) {
-		for (auto& func : functions)
-			if (func.first == key)
-				func.second();
+	void GameController::keyDown(SDL_Keycode key) {
+		startFunctions(key);
+		editText(key);
+	}
+
+	void GameController::startFunctions(const int key) {
+		functions[key]();
+	}
+
+	void GameController::editText(SDL_Keycode event) {
+		if (event == SDLK_BACKSPACE && text.length() > 0) {
+			text.pop_back();
+		}
 	}
 
 	void GameController::quit() {
 		running = false;
 	}
 
-	void GameController::addFunction(int i, void(*f)()) {
-		functions.push_back(std::make_pair(i, f));
+	void GameController::addFunction(int i, std::function<void()> f) {
+		functions[i] = f;
 	}
 
 	SDL_Rect* GameController::checkPoint(SDL_Point* p) {
@@ -181,6 +195,17 @@ namespace gameEngine {
 
 	SDL_Rect* GameController::getMPos() {
 		return checkPoint(p);
+	}
+
+	void GameController::setFPS(int f) {
+		if (f > 0)
+			fps = f;
+		else
+			std::cerr << "Invalid input, FPS must be a number above zero" << std::endl;
+	}
+
+	void GameController::setTyping(bool b) {
+		typing = b;
 	}
 
 	GameController::~GameController() {

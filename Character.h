@@ -26,6 +26,7 @@ using namespace gameEngine;
 		void move();
 		virtual void tickFunction();
 	private:
+		int counter = 0;
 		int health;
 		int speed;
 		int startX, startY;
