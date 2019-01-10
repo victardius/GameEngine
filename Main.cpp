@@ -23,7 +23,7 @@ void next() {
 
 int main(int argc, char** argv)
 {
-	player = Player::getInstance(100, 5, Animator::getInstance("PNG/survivor 1/survivor1_gun_sheet.png", 52, 52, 8), "player", 250, 250, 0, 0, 10);
+	player = Player::getInstance(100, 5, Animator::getInstance("PNG/survivor 1/survivor1_gun_sheet.png", 52, 52, 8), "player", 250, 250, 100, 0, 10);
 	button = Text::getInstance(Animator::getInstance("PNG/tiles/tile_538.png"), "Menu", "Menu", "Fonts/arial.ttf", new SDL_Color{ 50,50,50,255 }, 26, 550, 25);
 	level1 = Level::getInstance();
 	level1->createBG(100, Animator::getInstance("PNG/tiles/tile_01.png"));
