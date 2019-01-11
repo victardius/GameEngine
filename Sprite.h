@@ -13,13 +13,13 @@ namespace gameEngine {
 	class Sprite {
 	public:
 		SDL_Rect* getRect();
-		void moveTo(int x, int y);
 		virtual void tick();
 		std::string getName();
 		virtual void setAnimation(std::shared_ptr<Animator> anim);
 		std::shared_ptr<Animator> getAnimation();
 		void changeFrame(int f);
 		int getCurrentFrame();
+		void changeSize(double n);
 		~Sprite();
 	protected:
 		Sprite(std::shared_ptr<Animator> animat, std::string spriteName, int posX = 0, int posY = 0);

@@ -60,18 +60,24 @@ namespace gameEngine {
 	}
 
 	void CollisionSprite::checkCollision(std::shared_ptr<CollisionSprite> cs) {
-		SDL_Rect* r = intersectRects(cs);
-		if (r != nullptr) {
-			for (int y = 0; y < r->h; y++) {
-				for (int x = 0; x < r->w; x++) {
-					int posX = r->x + x;
-					int posY = r->y + y;
-					SDL_Point p1 = { posX, posY };
-					if (pointInCollider(&p1) && cs->pointInCollider(&p1))
-						collisionEvent(cs);
+		if (!collCooldown) {
+			SDL_Rect* r = intersectRects(cs);
+			if (r != nullptr) {
+				for (int y = 0; y < r->h; y++) {
+					for (int x = 0; x < r->w; x++) {
+						int posX = r->x + x;
+						int posY = r->y + y;
+						SDL_Point p1 = { posX, posY };
+						if (pointInCollider(&p1) && cs->pointInCollider(&p1)) {
+							collisionEvent(cs);
+							collCooldown = gc.getFPS() / 2;
+						}
+					}
 				}
 			}
 		}
+		else
+			collCooldown--;
 	}
 
 	bool CollisionSprite::pointInCollider(SDL_Point* p) {

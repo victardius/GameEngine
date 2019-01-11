@@ -20,7 +20,7 @@ namespace gameEngine {
 
 		int mixFlags = MIX_INIT_OGG | MIX_INIT_MOD;
 		int mixInitted = Mix_Init(mixFlags);
-		if (mixInitted&mixFlags != mixFlags) {
+		if ((mixInitted&mixFlags) != mixFlags) {
 			std::cerr << "Mix_Init: Failed to init required ogg and mod support!\n" << std::endl;
 			std::cerr << "Mix_Init: %s\n" << Mix_GetError() << std::endl;
 		}

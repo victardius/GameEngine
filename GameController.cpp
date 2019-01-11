@@ -110,8 +110,8 @@ namespace gameEngine {
 		return nullptr;
 	}
 
-	SDL_Rect* GameController::getMPos() {
-		return checkPoint(p);
+	SDL_Point* GameController::getMPos() {
+		return p;
 	}
 
 	void GameController::setFPS(int f) {

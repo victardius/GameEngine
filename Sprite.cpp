@@ -24,11 +24,6 @@ namespace gameEngine {
 			SDL_RenderCopy(gc.getSys()->getRen(), anim->getTx(), anim->getActiveRect(currentFrame), rect);
 	}
 
-	void Sprite::moveTo(int newX, int newY) {
-		rect->x = newX;
-		rect->y = newY;
-	}
-
 	std::string Sprite::getName() {
 		return name;
 	}
@@ -51,6 +46,11 @@ namespace gameEngine {
 
 	int Sprite::getCurrentFrame() {
 		return currentFrame;
+	}
+
+	void Sprite::changeSize(double n) {
+		rect->h = (int)(rect->h * n);
+		rect->w = (int)(rect->h * n);
 	}
 
 	Sprite::~Sprite() {

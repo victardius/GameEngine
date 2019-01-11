@@ -125,11 +125,14 @@
   <ItemGroup>
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Fysics.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameController.cpp" />
-    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="CollisionSprite.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -139,10 +142,13 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Coordinate.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Fysics.h" />
     <ClInclude Include="GameController.h" />
-    <ClInclude Include="Character.h" />
+    <ClInclude Include="LevelManager.h" />
+    <ClInclude Include="MovingObject.h" />
     <ClInclude Include="CollisionSprite.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />

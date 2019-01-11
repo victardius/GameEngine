@@ -24,7 +24,7 @@ namespace gameEngine {
 		void eventHandler();
 		void quit();
 		void addFunction(int i, std::function<void()> f);
-		SDL_Rect* getMPos();
+		SDL_Point* getMPos();
 		System* getSys();
 		void setFPS(int f);
 		int getFPS();

@@ -33,6 +33,7 @@ namespace gameEngine {
 		bool collided = false;
 		void updateCollRects();
 		bool pointInCollider(SDL_Point* p);
+		int collCooldown = 0;
 	};
 
 }

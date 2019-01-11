@@ -33,8 +33,17 @@ namespace gameEngine {
 	}
 
 	void Fysics::movePos(int xPos, int yPos) {
-		position.x += xPos + verticalDrag / gc.getFPS();
-		position.y += yPos + horizontalDrag / gc.getFPS();
+		int xMod, yMod;
+		if (currBounce) {
+			xMod = 0;
+			yMod = 0;
+		}
+		else {
+			xMod = verticalDrag / gc.getFPS();
+			yMod = horizontalDrag / gc.getFPS();
+		}
+		position.x += xPos + xMod;
+		position.y += yPos + yMod;
 	}
 
 	void Fysics::bounce(SDL_Point* p) {

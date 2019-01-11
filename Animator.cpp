@@ -18,7 +18,7 @@ namespace gameEngine {
 		int x = 0, y = 0;
 		this->frames = frames;
 		for (int i = 0; i < frames; i++) {
-			if ((y == 0 && w * i >= totSizeW) || (y > 0 && w * i > totSizeW * (y + 1)))
+			if (y >= 0 && w * (i + 1) > totSizeW * (y + 1) && frames > 1)
 				y++;
 			x = (w * i) - (totSizeW * y);
 			rect[i] = {x, (y * h), w, h};

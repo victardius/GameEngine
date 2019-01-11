@@ -1,11 +1,14 @@
 #include "Player.h"
 #include "GameController.h"
+#include "Bullet.h"
 #include <cmath>
+#include <string>
+
 #define PI 3.14159265
 
 using namespace gameEngine;
 
-Player::Player(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) : Character(pHealth, pSpeed, animat, spriteName, x, y, horizDrag, vertDrag, bounce)
+Player::Player(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) : MovingObject(pHealth, pSpeed, animat, spriteName, x, y, horizDrag, vertDrag, bounce)
 {
 	startPos = { x,y };
 	startHealth = pHealth;
@@ -17,15 +20,21 @@ std::shared_ptr<Player> Player::getInstance(int pHealth, int pSpeed, std::shared
 }
 
 void Player::tickFunction() {
+	if (dmgCooldown > 0)
+		dmgCooldown--;
 	move();
 	bouncing();
 	angleToFrame();
-	rdrCpy();
+	lifeBar->setText(std::to_string(getHealth()));
 }
 
 void Player::collisionEvent(std::shared_ptr<CollisionSprite> cs) {
-	bounce(new SDL_Point{ cs->getRect()->x, cs->getRect()->y });
-	stop();
+	if (cs->getName() == "Enemy" && !dmgCooldown) {
+		bounce(new SDL_Point{ cs->getRect()->x, cs->getRect()->y });
+		dmgCooldown = gc.getFPS() / 2;
+		takeDamage(20);
+		stop();
+	}
 }
 
 void Player::angleToFrame() {
@@ -43,10 +52,28 @@ void Player::angleToFrame() {
 		changeFrame((int)a);
 }
 
+void Player::moveTo() {
+	moveTarget(gc.getMPos());
+}
+
+void Player::shoot() {
+	stop();
+	setFocus(gc.getMPos()->x, gc.getMPos()->y);
+	gc.getLevel()->addCollisionSprite(Bullet::getInstance(100, 10, Animator::getInstance("PNG/Bullet.png"), "Bullet", getRect()->x, getRect()->y));
+}
+
+void Player::setLifeBar(std::shared_ptr<Text> t) {
+	lifeBar = t;
+}
+
 void Player::reset() {
 	*getPosition() = startPos;
 	setHealth(startHealth);
 	setSpeed(startSpeed);
+}
+
+void Player::deathEvent() {
+	reset();
 }
 
 Player::~Player()
