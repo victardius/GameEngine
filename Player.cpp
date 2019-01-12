@@ -59,7 +59,7 @@ void Player::moveTo() {
 void Player::shoot() {
 	stop();
 	setFocus(gc.getMPos()->x, gc.getMPos()->y);
-	gc.getLevel()->addCollisionSprite(Bullet::getInstance(100, 10, Animator::getInstance("PNG/Bullet.png"), "Bullet", getRect()->x, getRect()->y));
+	gc.getLevel()->addCollisionSprite(Bullet::getInstance(100, 10, Animator::getInstance("PNG/Bullet.png"), "Bullet", getRect()->x, getRect()->y, 100));
 }
 
 void Player::setLifeBar(std::shared_ptr<Text> t) {
