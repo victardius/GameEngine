@@ -22,22 +22,6 @@ namespace gameEngine {
 		texts.push_back(text);
 	}
 
-	void Level::createBG(int amount, std::shared_ptr<Animator> animat) {
-		std::string name = "background0";
-		char c = '0';
-		int posX = 0, posY = 0, total = 0;
-		for (int i = 0; i < amount; i++) {
-			name.replace(10, 1, &c);
-			c++;
-			addBackground(Background::getInstance(animat, name, posX, posY));
-			posX += 64;
-			if (posX == 640) {
-				posX = 0;
-				posY += 64;
-			}
-		}
-	}
-
 	std::vector<std::shared_ptr<CollisionSprite>>* Level::getCollidingObjects() {
 		return &collObjs;
 	}

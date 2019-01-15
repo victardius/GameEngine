@@ -13,12 +13,12 @@ KeyManager* KeyManager::getInstance() {
 void KeyManager::addKeys() {
 	addKey(SDL_BUTTON_RIGHT, std::bind(&Player::moveTo, lvlMngr.getPlayer()));
 	addKey(SDL_BUTTON_LEFT, std::bind(&Player::shoot, lvlMngr.getPlayer()));
-	addKey(SDLK_ESCAPE, std::bind(&GameController::quit, &gc));
-	addKey(SDLK_RETURN, std::bind(&Text::setActive, lvlMngr.getFinalText()));
+	addKey(SDLK_ESCAPE, std::bind(&gameEngine::GameController::quit, &gameEngine::gc));
+	addKey(SDLK_RETURN, std::bind(&gameEngine::Text::setActive, lvlMngr.getFinalText()));
 }
 
 void KeyManager::addKey(int a, std::function<void()> f) {
-	gc.addFunction(a, f);
+	gameEngine::gc.addFunction(a, f);
 }
 
 KeyManager::~KeyManager()

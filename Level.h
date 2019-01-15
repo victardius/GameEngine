@@ -22,7 +22,6 @@ namespace gameEngine {
 		void removeCollidingObject(std::shared_ptr<CollisionSprite> n);
 		void removeBackground(std::shared_ptr<Background> n);
 		void removeText(std::shared_ptr<Text> n);
-		void createBG(int amount, std::shared_ptr<Animator> animat);
 		void removeObjects();
 		~Level();
 	protected:

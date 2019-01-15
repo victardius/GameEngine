@@ -6,9 +6,7 @@
 #include "Coordinate.h"
 #include <memory>
 
-using namespace gameEngine;
-
-	class MovingObject : public CollisionSprite {
+	class MovingObject : public gameEngine::CollisionSprite {
 	public:
 		void moveTarget(SDL_Point* p);
 		void takeDamage(int amount);
@@ -21,7 +19,7 @@ using namespace gameEngine;
 		std::shared_ptr<Coordinate> getMoveTarget();
 		~MovingObject();
 	protected:
-		MovingObject(int pHealth, int pSpeed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce);
+		MovingObject(int pHealth, int pSpeed, std::shared_ptr<gameEngine::Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce);
 		void collisionEvent(std::shared_ptr<CollisionSprite> cs);
 		void move();
 		virtual void tickFunction();

@@ -1,13 +1,13 @@
 #include "Bullet.h"
 #include "GameController.h"
 
-Bullet::Bullet(int dmg, int speed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) : MovingObject(1, speed, animat, spriteName, x, y, horizDrag, vertDrag, bounce), damage(dmg)
+Bullet::Bullet(int dmg, int speed, std::shared_ptr<gameEngine::Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) : MovingObject(1, speed, animat, spriteName, x, y, horizDrag, vertDrag, bounce), damage(dmg)
 {
-	moveTarget(gc.getMPos());
-	deathCounter = gc.getFPS();
+	moveTarget(gameEngine::gc.getMPos());
+	deathCounter = gameEngine::gc.getFPS();
 }
 
-std::shared_ptr<Bullet> Bullet::getInstance(int dmg, int speed, std::shared_ptr<Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) {
+std::shared_ptr<Bullet> Bullet::getInstance(int dmg, int speed, std::shared_ptr<gameEngine::Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce) {
 	return std::shared_ptr<Bullet>(new Bullet(dmg, speed, animat, spriteName, x, y, horizDrag, vertDrag, bounce));
 }
 
@@ -25,7 +25,7 @@ void Bullet::tickFunction() {
 }
 
 void Bullet::deathEvent() {
-	gc.getLevel()->removeCollidingObject(shared_from_this());
+	gameEngine::gc.getLevel()->removeCollidingObject(shared_from_this());
 }
 
 Bullet::~Bullet()

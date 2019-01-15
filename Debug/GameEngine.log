@@ -1,4 +1,9 @@
-﻿  LevelManager.cpp
+﻿  Bullet.cpp
+  Enemy.cpp
+  KeyManager.cpp
+  LevelManager.cpp
   Main.cpp
+  MovingObject.cpp
+  Player.cpp
   Generating Code...
   GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe

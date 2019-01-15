@@ -5,8 +5,6 @@
 #include "Player.h"
 #include "LevelManager.h"
 
-using namespace gameEngine;
-
 class KeyManager
 {
 public:
