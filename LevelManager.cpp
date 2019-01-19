@@ -85,11 +85,11 @@ void LevelManager::addFinalScene() {
 	getLevel(3)->addText(finalText);
 }
 
-std::shared_ptr<Player> LevelManager::getPlayer() {
+std::shared_ptr<Player> LevelManager::getPlayer() const {
 	return player;
 }
 
-std::shared_ptr<gameEngine::Text> LevelManager::getFinalText() {
+std::shared_ptr<gameEngine::Text> LevelManager::getFinalText() const {
 	return finalText;
 }
 

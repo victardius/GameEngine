@@ -37,7 +37,7 @@ namespace gameEngine {
 		return ren;
 	}
 
-	SDL_Window* System::getWin() {
+	const SDL_Window* System::getWin() {
 		return win;
 	}
 

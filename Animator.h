@@ -11,11 +11,11 @@ namespace gameEngine {
 	{
 	public:
 		static std::shared_ptr<Animator> getInstance(const char* sheetPath, int w = 0, int h = 0, int frames = 1);
-		SDL_Rect* getRect();
-		SDL_Rect* getActiveRect(int frame);
+		const SDL_Rect* getRect();
+		const SDL_Rect* getActiveRect(int frame);
 		SDL_Surface* getSurf();
 		SDL_Texture* getTx();
-		int getFrames();
+		int getFrames() const;
 		~Animator();
 	protected:
 		Animator(const char* sheetPath, int w, int h, int frames);

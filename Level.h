@@ -16,9 +16,9 @@ namespace gameEngine {
 		void addBackground(std::shared_ptr<Background> bg);
 		void addCollisionSprite(std::shared_ptr<CollisionSprite> character);
 		void addText(std::shared_ptr<Text> text);
-		std::vector<std::shared_ptr<CollisionSprite>>* getCollidingObjects();
-		std::vector<std::shared_ptr<Background>>* getBackgrounds();
-		std::vector<std::shared_ptr<Text>>* getTexts();
+		const std::vector<std::shared_ptr<CollisionSprite>>* getCollidingObjects();
+		const std::vector<std::shared_ptr<Background>>* getBackgrounds();
+		const std::vector<std::shared_ptr<Text>>* getTexts();
 		void removeCollidingObject(std::shared_ptr<CollisionSprite> n);
 		void removeBackground(std::shared_ptr<Background> n);
 		void removeText(std::shared_ptr<Text> n);

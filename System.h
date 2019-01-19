@@ -15,7 +15,7 @@ namespace gameEngine {
 		static System* getInstance();
 		~System();
 		SDL_Renderer* getRen();
-		SDL_Window* getWin();
+		const SDL_Window* getWin();
 	private:
 		System();
 		SDL_Window* win;

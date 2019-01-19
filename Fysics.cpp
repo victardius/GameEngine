@@ -12,7 +12,7 @@ namespace gameEngine {
 		verticalDrag = amount;
 	}
 
-	int Fysics::getVerticalDrag() {
+	int Fysics::getVerticalDrag() const {
 		return verticalDrag;
 	}
 
@@ -20,7 +20,7 @@ namespace gameEngine {
 		horizontalDrag = amount;
 	}
 
-	int Fysics::getHorizontalDrag() {
+	int Fysics::getHorizontalDrag() const {
 		return horizontalDrag;
 	}
 
@@ -28,7 +28,7 @@ namespace gameEngine {
 		bouncyness = b;
 	}
 
-	int Fysics::getBouncyness() {
+	int Fysics::getBouncyness() const {
 		return bouncyness;
 	}
 

@@ -10,13 +10,13 @@
 	public:
 		void moveTarget(SDL_Point* p);
 		void takeDamage(int amount);
-		int getHealth();
-		double getSpeed();
+		int getHealth() const;
+		double getSpeed() const;
 		void setHealth(int amount);
 		void setSpeed(int amount);
 		void setFocus(int x, int y);
-		std::shared_ptr<Coordinate> getFocus();
-		std::shared_ptr<Coordinate> getMoveTarget();
+		std::shared_ptr<Coordinate> getFocus() const;
+		std::shared_ptr<Coordinate> getMoveTarget() const;
 		~MovingObject();
 	protected:
 		MovingObject(int pHealth, int pSpeed, std::shared_ptr<gameEngine::Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce);

@@ -6,7 +6,7 @@ class Enemy : public MovingObject, public std::enable_shared_from_this<Enemy> {
 public:
 	static std::shared_ptr<Enemy> getInstance(double size, SDL_Point* p1, SDL_Point* p2, int pHealth, int pSpeed, std::shared_ptr<gameEngine::Animator> animat, std::string spriteName, int x, int y, int horizDrag = 0, int vertDrag = 0, int bounce = 0);
 	void setPatrol(SDL_Point* p1, SDL_Point* p2);
-	int getEnemies();
+	int getEnemies() const;
 	~Enemy();
 protected:
 	Enemy(double size, SDL_Point* p1, SDL_Point* p2, int pHealth, int pSpeed, std::shared_ptr<gameEngine::Animator> animat, std::string spriteName, int x, int y, int horizDrag, int vertDrag, int bounce);

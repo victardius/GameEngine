@@ -29,11 +29,11 @@ namespace gameEngine {
 		return std::shared_ptr<Animator>(new Animator(sheetPath, w, h, frames));
 	}
 
-	SDL_Rect* Animator::getRect() {
+	const SDL_Rect* Animator::getRect() {
 		return rect;
 	}
 
-	SDL_Rect* Animator::getActiveRect(int frame) {
+	const SDL_Rect* Animator::getActiveRect(int frame) {
 		if (frame > (frames -1) || frame < 0)
 			throw std::out_of_range("Loading sprite frame is out of bounds!");
 		return &rect[frame];
@@ -43,7 +43,7 @@ namespace gameEngine {
 		return sf;
 	}
 
-	int Animator::getFrames() {
+	int Animator::getFrames() const {
 		return frames;
 	}
 

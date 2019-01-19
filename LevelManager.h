@@ -21,8 +21,8 @@ public:
 	void setGoal(int n);
 	void addGoalText(std::shared_ptr<gameEngine::Text> t);
 	void addLevels();
-	std::shared_ptr<Player> getPlayer();
-	std::shared_ptr<gameEngine::Text> getFinalText();
+	std::shared_ptr<Player> getPlayer() const;
+	std::shared_ptr<gameEngine::Text> getFinalText() const;
 	~LevelManager();
 protected:
 private:

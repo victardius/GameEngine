@@ -41,7 +41,7 @@ using namespace gameEngine;
 		focus->y = (int)(moveTargetPos->y + directionY * 100);
 	}
 
-	double MovingObject::getSpeed() {
+	double MovingObject::getSpeed() const {
 		return speed;
 	}
 
@@ -60,7 +60,7 @@ using namespace gameEngine;
 		}
 	}
 
-	int MovingObject::getHealth() {
+	int MovingObject::getHealth() const {
 		return health;
 	}
 
@@ -73,11 +73,11 @@ using namespace gameEngine;
 		focus->y = y;
 	}
 
-	std::shared_ptr<Coordinate> MovingObject::getFocus() {
+	std::shared_ptr<Coordinate> MovingObject::getFocus() const {
 		return focus;
 	}
 
-	std::shared_ptr<Coordinate> MovingObject::getMoveTarget() {
+	std::shared_ptr<Coordinate> MovingObject::getMoveTarget() const {
 		return moveTargetPos;
 	}
 

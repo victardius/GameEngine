@@ -24,7 +24,7 @@ namespace gameEngine {
 			SDL_RenderCopy(gc.getSys()->getRen(), anim->getTx(), anim->getActiveRect(currentFrame), rect);
 	}
 
-	std::string Sprite::getName() {
+	std::string Sprite::getName() const {
 		return name;
 	}
 
@@ -36,7 +36,7 @@ namespace gameEngine {
 		anim = std::shared_ptr<Animator>(ani);
 	}
 
-	std::shared_ptr<Animator> Sprite::getAnimation() {
+	std::shared_ptr<Animator> Sprite::getAnimation() const {
 		return anim;
 	}
 
@@ -44,7 +44,7 @@ namespace gameEngine {
 		currentFrame = f;
 	}
 
-	int Sprite::getCurrentFrame() {
+	int Sprite::getCurrentFrame() const {
 		return currentFrame;
 	}
 

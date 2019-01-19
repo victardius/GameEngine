@@ -9,11 +9,11 @@ namespace gameEngine {
 	{
 	public:
 		void setHorizontalDrag(int amount);
-		int getHorizontalDrag();
+		int getHorizontalDrag() const;
 		void setVerticalDrag(int amount);
-		int getVerticalDrag();
+		int getVerticalDrag() const;
 		void setBouncyness(int b);
-		int getBouncyness();
+		int getBouncyness() const;
 		void movePos(int xPos, int yPos);
 		void bounce(SDL_Point* p);
 		SDL_Point* getPosition();

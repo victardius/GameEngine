@@ -22,15 +22,15 @@ namespace gameEngine {
 		texts.push_back(text);
 	}
 
-	std::vector<std::shared_ptr<CollisionSprite>>* Level::getCollidingObjects() {
+	const std::vector<std::shared_ptr<CollisionSprite>>* Level::getCollidingObjects(){
 		return &collObjs;
 	}
 
-	std::vector<std::shared_ptr<Background>>* Level::getBackgrounds() {
+	const std::vector<std::shared_ptr<Background>>* Level::getBackgrounds() {
 		return &bgs;
 	}
 
-	std::vector<std::shared_ptr<Text>>* Level::getTexts() {
+	const std::vector<std::shared_ptr<Text>>* Level::getTexts(){
 		return &texts;
 	}
 

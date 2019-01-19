@@ -11,7 +11,7 @@ namespace gameEngine {
 		return new GameController();
 	}
 
-	System* GameController::getSys() {
+	System* GameController::getSys() const {
 		return sys;
 	}
 
@@ -110,7 +110,7 @@ namespace gameEngine {
 		return nullptr;
 	}
 
-	SDL_Point* GameController::getMPos() {
+	SDL_Point* GameController::getMPos() const {
 		return p;
 	}
 
@@ -121,7 +121,7 @@ namespace gameEngine {
 			std::cerr << "Invalid input, FPS must be a number above zero" << std::endl;
 	}
 
-	int GameController::getFPS() {
+	int GameController::getFPS() const {
 		return fps;
 	}
 
@@ -133,7 +133,7 @@ namespace gameEngine {
 		level = l;
 	}
 
-	std::shared_ptr<Level> GameController::getLevel() {
+	std::shared_ptr<Level> GameController::getLevel() const {
 		return level;
 	}
 

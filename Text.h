@@ -13,7 +13,7 @@ namespace gameEngine {
 		static std::shared_ptr<Text> getInstance(std::shared_ptr<Animator> animat, std::string spriteName, std::string txt, const char* fontPath, SDL_Color* c, int size, int posX = 0, int posY = 0);
 		void tick();
 		void setText(std::string s);
-		std::string getText();
+		std::string getText() const;
 		virtual bool isActive();
 		virtual void setActive();
 		~Text();

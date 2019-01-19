@@ -1,9 +1,17 @@
-﻿  Bullet.cpp
+﻿  Animator.cpp
+  Background.cpp
+  Bullet.cpp
   Enemy.cpp
+  Fysics.cpp
   KeyManager.cpp
+  Level.cpp
   LevelManager.cpp
   Main.cpp
+  GameController.cpp
   MovingObject.cpp
+  CollisionSprite.cpp
   Player.cpp
+  Sprite.cpp
+  Text.cpp
   Generating Code...
   GameEngine.vcxproj -> C:\Users\Horan\Documents\GitHub\GameEngine\Debug\GameEngine.exe

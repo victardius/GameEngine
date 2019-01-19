@@ -59,7 +59,7 @@ void Enemy::deathEvent() {
 	gameEngine::gc.getLevel()->removeCollidingObject(shared_from_this());
 }
 
-int Enemy::getEnemies() {
+int Enemy::getEnemies() const {
 	return enemies;
 }
 

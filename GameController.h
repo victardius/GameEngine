@@ -24,13 +24,13 @@ namespace gameEngine {
 		void eventHandler();
 		void quit();
 		void addFunction(int i, std::function<void()> f);
-		SDL_Point* getMPos();
-		System* getSys();
+		SDL_Point* getMPos() const;
+		System* getSys() const;
 		void setFPS(int f);
-		int getFPS();
+		int getFPS() const;
 		void setTyping(bool b);
 		void setLevel(std::shared_ptr<Level> l);
-		std::shared_ptr<Level> getLevel();
+		std::shared_ptr<Level> getLevel() const;
 	protected:
 		GameController();
 	private:

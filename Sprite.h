@@ -14,11 +14,11 @@ namespace gameEngine {
 	public:
 		SDL_Rect* getRect();
 		virtual void tick();
-		std::string getName();
+		std::string getName() const;
 		virtual void setAnimation(std::shared_ptr<Animator> anim);
-		std::shared_ptr<Animator> getAnimation();
+		std::shared_ptr<Animator> getAnimation() const;
 		void changeFrame(int f);
-		int getCurrentFrame();
+		int getCurrentFrame() const;
 		void changeSize(double n);
 		~Sprite();
 	protected:

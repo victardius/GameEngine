@@ -44,7 +44,7 @@ namespace gameEngine {
 		createText();
 	}
 
-	std::string Text::getText() {
+	std::string Text::getText() const {
 		return text;
 	}
 
